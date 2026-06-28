@@ -3,7 +3,8 @@ uvicorn[standard]==0.34.0
 SQLAlchemy==2.0.36
 pydantic==2.10.4
 python-dotenv==1.0.1
+requests==2.32.3
+python-multipart==0.0.20
 google-api-python-client
 google-auth
 google-auth-oauthlib
-requestspython-multipart==0.0.20
