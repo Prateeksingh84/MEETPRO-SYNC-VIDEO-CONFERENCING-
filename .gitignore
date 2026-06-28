@@ -1,0 +1,48 @@
+@"
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.Python
+backend/.venv/
+backend/venv/
+venv/
+.env
+backend/.env
+
+# Database / local storage
+*.db
+backend/*.db
+backend/zoom_clone.db
+backend/recordings/
+recordings/
+
+# Node / Next.js
+node_modules/
+frontend/node_modules/
+.next/
+frontend/.next/
+out/
+dist/
+build/
+
+# Environment files
+.env.local
+frontend/.env.local
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# OS / Editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Temporary generated files
+project-structure.txt
+"@ | Set-Content .gitignore
