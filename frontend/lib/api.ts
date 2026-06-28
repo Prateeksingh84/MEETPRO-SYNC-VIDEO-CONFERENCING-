@@ -1,9 +1,20 @@
-import { Dashboard, Meeting, PlatformSummary, User } from "@/lib/types";
+﻿import { Dashboard, Meeting, PlatformSummary, User } from "@/lib/types";
 
-const API_BASE =
-  process.env.NEXT_PUBLIC_API_BASE_URL ||
-  process.env.NEXT_PUBLIC_API_BASE ||
-  "http://localhost:8000";
+function getApiBase(): string {
+  const apiBase =
+    process.env.NEXT_PUBLIC_API_BASE_URL ||
+    process.env.NEXT_PUBLIC_API_BASE;
+
+  if (!apiBase) {
+    throw new Error(
+      "Backend API URL is missing. Set NEXT_PUBLIC_API_BASE_URL in Vercel Environment Variables.",
+    );
+  }
+
+  return apiBase.replace(/\/$/, "");
+}
+
+const API_BASE = getApiBase();
 
 function buildUrl(path: string) {
   if (path.startsWith("http")) {
@@ -189,17 +200,32 @@ export function getMeetingWsUrl(meetingId: string): string {
   return `${wsBase}/ws/meetings/${meetingId}`;
 }
 
-export function getWsUrl(meetingId: string): string {
-  return getMeetingWsUrl(meetingId);
+export function getWsUrl(path: string): string {
+  const wsBase = API_BASE.startsWith("https://")
+    ? API_BASE.replace("https://", "wss://")
+    : API_BASE.replace("http://", "ws://");
+
+  const cleanPath = path.startsWith("/") ? path : `/${path}`;
+
+  return `${wsBase}${cleanPath}`;
 }
 
 /* =========================
    WORKSPACE
    ========================= */
 
-export function getWorkspaceWsUrl(roomId: string): string {
-  const wsBase = API_BASE.replace("http://", "ws://").replace("https://", "wss://");
-  return `${wsBase}/ws/workspace/${roomId}`;
+export function getWorkspaceWsUrl(
+  workspaceId: string,
+  clientId: string,
+  displayName: string,
+): string {
+  const encodedWorkspaceId = encodeURIComponent(workspaceId);
+  const encodedClientId = encodeURIComponent(clientId);
+  const encodedDisplayName = encodeURIComponent(displayName);
+
+  return getWsUrl(
+    `/ws/workspace/${encodedWorkspaceId}?client_id=${encodedClientId}&clientId=${encodedClientId}&name=${encodedDisplayName}&displayName=${encodedDisplayName}`,
+  );
 }
 
 /* =========================
@@ -472,4 +498,5 @@ export async function deleteMeetingRecording(recordingId: string): Promise<{ mes
 export function getRecordingDownloadUrl(recordingId: string): string {
   return `${API_BASE}/api/recordings/${recordingId}/download`;
 }
+
 
