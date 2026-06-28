@@ -1,79 +1,150 @@
-# Zoomly Meetings — Full-Stack Zoom Clone
+<div align="center">
 
-A functional Zoom-style video conferencing platform built for an SDE Fullstack assignment.
+<!-- Animated Banner -->
+<img src="https://capsule-render.vercel.app/api?type=waving&color=0:2D8CFF,100:00C2FF&height=200&section=header&text=Zoomly%20Meetings&fontSize=60&fontColor=ffffff&animation=fadeIn&fontAlignY=38&desc=A%20Full-Stack%20Zoom%20Clone&descAlignY=58&descSize=20&descColor=d0eaff" width="100%"/>
 
-The project focuses on the assignment requirements: Zoom-like dashboard UI, instant meeting creation, meeting joining through ID/invite link, meeting scheduling, SQLite persistence, seed data, real-time participant updates, WebRTC video/audio, chat, and host controls.
+<!-- Animated Typing -->
+<img src="https://readme-typing-svg.demolab.com?font=Fira+Code&weight=600&size=22&pause=1000&color=2D8CFF&center=true&vCenter=true&width=600&lines=Real-Time+Video+Conferencing+%F0%9F%8E%A5;WebRTC+Peer-to-Peer+Mesh+%F0%9F%94%97;FastAPI+%2B+Next.js+14+%F0%9F%9A%80;WebSocket+Signaling+%E2%9A%A1;Built+for+SDE+Fullstack+Assignment+%F0%9F%92%AA" alt="Typing SVG" />
 
-## Tech Stack
+<br/>
 
-### Frontend
-- Next.js 14 App Router
-- React 18
-- TypeScript
-- Plain CSS with responsive Zoom-inspired UI
-- WebRTC using `RTCPeerConnection`
-- Browser media APIs: `getUserMedia`, `getDisplayMedia`
+<!-- Badges Row 1 -->
+[![Next.js](https://img.shields.io/badge/Next.js-14-black?style=for-the-badge&logo=next.js&logoColor=white)](https://nextjs.org/)
+[![FastAPI](https://img.shields.io/badge/FastAPI-0.100+-009688?style=for-the-badge&logo=fastapi&logoColor=white)](https://fastapi.tiangolo.com/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.0-3178C6?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
+[![Python](https://img.shields.io/badge/Python-3.12-3776AB?style=for-the-badge&logo=python&logoColor=white)](https://python.org/)
 
-### Backend
-- Python 3.12
-- FastAPI
-- FastAPI WebSockets for meeting signaling
-- SQLAlchemy ORM
-- SQLite database
-- Uvicorn ASGI server
+<!-- Badges Row 2 -->
+[![WebRTC](https://img.shields.io/badge/WebRTC-P2P_Mesh-333333?style=for-the-badge&logo=webrtc&logoColor=white)](https://webrtc.org/)
+[![SQLite](https://img.shields.io/badge/SQLite-Database-003B57?style=for-the-badge&logo=sqlite&logoColor=white)](https://sqlite.org/)
+[![Docker](https://img.shields.io/badge/Docker-Compose-2496ED?style=for-the-badge&logo=docker&logoColor=white)](https://www.docker.com/)
+[![License](https://img.shields.io/badge/License-MIT-green?style=for-the-badge)](./LICENSE)
 
-## Core Features Implemented
+</div>
 
-### 1. Landing Dashboard
-- Professional Zoom-inspired UI
-- Top navbar with profile/settings placeholders
-- New Meeting button
-- Join Meeting button
-- Schedule Meeting button
-- Upcoming meetings section
+---
+
+## 🌊 Overview
+
+> **Zoomly Meetings** is a production-inspired video conferencing platform built from the ground up — covering everything from real-time WebRTC peer connections to a FastAPI WebSocket signaling layer and a full SQLite-backed scheduling system.
+
+This was built for **MEETPRO_SYNC_VIDEO_CONFERENCING**, and it nails all the key requirements:
+
+| ✅ Feature | Description |
+|---|---|
+| 🖥️ Dashboard UI | Zoom-style top navbar, meeting cards, schedule view |
+| ⚡ Instant Meetings | One-click creation with unique `XXX-XXX-XXX` meeting IDs |
+| 🔗 Join by ID / Link | ID entry or invite link, display name gate, camera preview |
+| 📅 Schedule Meetings | Title, description, date/time, duration — all persisted |
+| 🎥 WebRTC Video/Audio | Full peer-to-peer mesh with `RTCPeerConnection` |
+| 💬 Real-Time Chat | Group chat with message persistence in SQLite |
+| 👑 Host Controls | Mute all, remove participant, screen share |
+| 🗄️ SQLite Persistence | Meetings, participants, and chat messages |
+| 🌱 Seed Data | Pre-loaded sample meetings for demo |
+
+---
+
+## 🏗️ Tech Stack
+
+<div align="center">
+
+```
+┌─────────────────────────────────────────────────────────┐
+│                     ZOOMLY STACK                        │
+│                                                         │
+│  🌐 FRONTEND              ⚙️  BACKEND                   │
+│  ─────────────────        ─────────────────────         │
+│  Next.js 14 (App Router)  FastAPI (Python 3.12)         │
+│  React 18                 FastAPI WebSockets            │
+│  TypeScript               SQLAlchemy ORM                │
+│  Plain CSS (Zoom UI)      SQLite Database               │
+│  WebRTC (RTCPeerConn)     Uvicorn ASGI                  │
+│  getUserMedia             REST + WS APIs                │
+│  getDisplayMedia                                        │
+│                                                         │
+│  📡 REAL-TIME LAYER       🗄️  DATABASE                  │
+│  ─────────────────        ─────────────────             │
+│  WebSocket Signaling      meetings                      │
+│  SDP Offer/Answer         participants                  │
+│  ICE Candidate Relay      chat_messages                 │
+└─────────────────────────────────────────────────────────┘
+```
+
+</div>
+
+---
+
+## ✨ Core Features
+
+<details>
+<summary><b>🏠 Landing Dashboard</b></summary>
+
+<br/>
+
+- Professional Zoom-inspired UI with full top navbar
+- **New Meeting**, **Join Meeting**, and **Schedule Meeting** quick-access buttons
+- Upcoming meetings section with time & join links
 - Recent meetings section
-- Seeded sample meetings
+- Pre-loaded seed data so the dashboard never feels empty
 
-### 2. Instant Meeting Creation
-- Creates a meeting instantly through FastAPI
-- Generates a unique Zoom-style meeting ID such as `821-419-305`
-- Generates shareable invite link
-- Redirects directly to the meeting room
+</details>
 
-### 3. Join Meeting
-- Join using Meeting ID
-- Invite link opens `/join?meetingId=...`
-- Display name required before joining
-- Backend validates meeting existence
-- Pre-join screen with mic/camera preview
+<details>
+<summary><b>⚡ Instant Meeting Creation</b></summary>
 
-### 4. Schedule Meetings
-- Title
-- Description
-- Date and time picker
-- Duration selector
-- Auto-generated invite link
-- Stored in SQLite
-- Displayed in Upcoming Meetings
+<br/>
 
-### 5. Real-Time Meeting Room
-- WebRTC peer-to-peer audio/video
-- FastAPI WebSocket signaling
-- Real-time participant join/leave
-- Real-time mute/camera status
-- Real-time group chat
-- Screen sharing
-- Copy invite link
-- Host controls:
-  - Mute all
-  - Remove participant
+- One click → meeting created via FastAPI REST
+- Auto-generates a unique **Zoom-style ID**: `821-419-305`
+- Generates a shareable **invite link** instantly
+- Redirects you straight to the live meeting room
 
-## Database Design
+</details>
 
-The SQLite schema uses three main tables.
+<details>
+<summary><b>🔗 Join Meeting</b></summary>
+
+<br/>
+
+- Join with **Meeting ID** or open an **invite link** (`/join?meetingId=...`)
+- **Display name required** — no anonymous joining
+- Backend validates meeting existence before allowing entry
+- **Pre-join screen** with live mic/camera preview
+
+</details>
+
+<details>
+<summary><b>📅 Schedule Meetings</b></summary>
+
+<br/>
+
+- Fields: Title, Description, Date & Time, Duration
+- Auto-generated invite link on save
+- Stored in SQLite, shown in **Upcoming Meetings**
+
+</details>
+
+<details>
+<summary><b>🎥 Real-Time Meeting Room</b></summary>
+
+<br/>
+
+- **WebRTC P2P** audio/video with `RTCPeerConnection`
+- **FastAPI WebSocket** signaling (SDP + ICE)
+- Live participant join/leave events
+- Real-time mute & camera status sync
+- **Group chat** with history
+- **Screen sharing** via `getDisplayMedia`
+- Copy invite link from inside the room
+- **Host Controls**: Mute all · Remove participant
+
+</details>
+
+---
+
+## 🗄️ Database Design
 
 ### `meetings`
-Stores meeting-level information.
 
 | Column | Purpose |
 |---|---|
@@ -89,7 +160,6 @@ Stores meeting-level information.
 | `created_at` | Created timestamp |
 
 ### `participants`
-Tracks users joining meetings.
 
 | Column | Purpose |
 |---|---|
@@ -104,7 +174,6 @@ Tracks users joining meetings.
 | `left_at` | Leave timestamp |
 
 ### `chat_messages`
-Persists meeting chat messages.
 
 | Column | Purpose |
 |---|---|
@@ -115,164 +184,205 @@ Persists meeting chat messages.
 | `message` | Message body |
 | `created_at` | Message timestamp |
 
-## Architecture
+---
 
-```text
-Next.js Client
-  ├── Dashboard / Join / Meeting Room UI
-  ├── REST API calls for meetings and scheduling
-  ├── WebRTC media peer connections
-  └── WebSocket signaling messages
+## 🏛️ Architecture
 
-FastAPI Backend
-  ├── REST APIs for meeting CRUD workflows
-  ├── SQLite + SQLAlchemy persistence
-  ├── WebSocket room manager
-  └── WebRTC signaling relay
-
-SQLite Database
-  ├── meetings
-  ├── participants
-  └── chat_messages
+```
+┌──────────────────────────────────────────────────────────────┐
+│                      Next.js Client                          │
+│  ┌─────────────┐  ┌────────────┐  ┌──────────────────────┐  │
+│  │  Dashboard  │  │  Join UI   │  │    Meeting Room       │  │
+│  │  /schedule  │  │  /join     │  │  /meeting/[id]        │  │
+│  └─────────────┘  └────────────┘  └──────────────────────┘  │
+│        │ REST             │ REST         │ WebSocket + WebRTC │
+└────────┼─────────────────┼─────────────┼────────────────────┘
+         │                 │             │
+         ▼                 ▼             ▼
+┌──────────────────────────────────────────────────────────────┐
+│                     FastAPI Backend                          │
+│  ┌─────────────────────┐   ┌──────────────────────────────┐  │
+│  │   REST API Routes   │   │   WebSocket Room Manager     │  │
+│  │  /meetings          │   │  SDP Offer / Answer relay    │  │
+│  │  /participants      │   │  ICE candidate relay         │  │
+│  │  /chat              │   │  Join / Leave / Chat events  │  │
+│  └─────────────────────┘   └──────────────────────────────┘  │
+│               │                        │                      │
+│               ▼                        ▼                      │
+│  ┌─────────────────────────────────────────────────────────┐  │
+│  │              SQLAlchemy ORM + SQLite                    │  │
+│  │   meetings  ·  participants  ·  chat_messages           │  │
+│  └─────────────────────────────────────────────────────────┘  │
+└──────────────────────────────────────────────────────────────┘
 ```
 
-## Local Setup
+---
 
-### 1. Clone repository
+## 🚀 Quick Start
+
+### 🔧 Local Setup
+
+**1. Clone the repository**
 
 ```bash
 git clone <your-repo-url>
 cd zoom-clone-fullstack
 ```
 
-### 2. Start backend
+**2. Start the backend**
 
 ```bash
 cd backend
 python -m venv .venv
-.venv\Scripts\activate     # Windows PowerShell
-# source .venv/bin/activate # macOS/Linux
+
+# Windows
+.venv\Scripts\activate
+copy .env.example .env
+
+# macOS / Linux
+source .venv/bin/activate
+cp .env.example .env
+
 pip install -r requirements.txt
-copy .env.example .env      # Windows
-# cp .env.example .env      # macOS/Linux
 uvicorn app.main:app --reload --port 8000
 ```
 
-Backend runs at:
+> 🟢 Backend: `http://localhost:8000`
+> 📖 Swagger Docs: `http://localhost:8000/docs`
 
-```text
-http://localhost:8000
-```
-
-Swagger docs:
-
-```text
-http://localhost:8000/docs
-```
-
-### 3. Start frontend
-
-Open another terminal:
+**3. Start the frontend**
 
 ```bash
 cd frontend
 npm install
-copy .env.local.example .env.local      # Windows
-# cp .env.local.example .env.local      # macOS/Linux
+
+# Windows
+copy .env.local.example .env.local
+
+# macOS / Linux
+cp .env.local.example .env.local
+
 npm run dev
 ```
 
-Frontend runs at:
+> 🟢 Frontend: `http://localhost:3000`
 
-```text
-http://localhost:3000
-```
+---
 
-## Docker Setup
+### 🐳 Docker (One Command)
 
 ```bash
 docker compose up --build
 ```
 
-Then open:
+Then open **http://localhost:3000** — everything is wired up.
 
-```text
-http://localhost:3000
+---
+
+## ☁️ Deployment
+
+<details>
+<summary><b>🟣 Backend → Render</b></summary>
+
+<br/>
+
+1. Push repo to GitHub
+2. Create a new **Render Web Service**
+3. Set root directory to `backend`
+4. **Build command:**
+   ```bash
+   pip install -r requirements.txt
+   ```
+5. **Start command:**
+   ```bash
+   uvicorn app.main:app --host 0.0.0.0 --port $PORT
+   ```
+6. **Environment variables:**
+   ```
+   FRONTEND_ORIGIN=https://your-vercel-app.vercel.app
+   CORS_ORIGINS=https://your-vercel-app.vercel.app
+   DATABASE_URL=sqlite:///./zoom_clone.db
+   ```
+
+</details>
+
+<details>
+<summary><b>▲ Frontend → Vercel</b></summary>
+
+<br/>
+
+1. Import the GitHub repo on Vercel
+2. Set root directory to `frontend`
+3. **Environment variable:**
+   ```
+   NEXT_PUBLIC_API_URL=https://your-render-backend.onrender.com
+   ```
+4. Deploy 🚀
+
+</details>
+
+---
+
+## 📡 WebRTC Notes
+
+> ⚠️ **Camera and microphone** access require `localhost` or **HTTPS** in production.
+
+| Consideration | Detail |
+|---|---|
+| 🔒 Security | Deploy frontend/backend with HTTPS + WSS |
+| 🕸️ Topology | P2P mesh — great for demos, small rooms |
+| 🏭 Production Scale | Use SFU media servers: LiveKit, mediasoup, Janus, or Twilio |
+| 🛰️ NAT Traversal | A TURN server is recommended for reliable cross-network connections |
+
+---
+
+## 🎬 Demo Walkthrough
+
+```
+1. 🏠  Open Dashboard
+        ↓
+2. ➕  Click "New Meeting"
+        ↓
+3. 🔗  Copy the invite link
+        ↓
+4. 🕵️  Open link in incognito / second browser
+        ↓
+5. 📝  Join with a second display name
+        ↓
+6. 🧪  Test the full feature set:
+        ├── 🎥  Audio/video tiles
+        ├── 🔇  Mute/unmute
+        ├── 📷  Stop/start camera
+        ├── 💬  Group chat
+        ├── 🖥️  Screen share
+        ├── 👑  Host: mute all
+        └── ❌  Host: remove participant
+        ↓
+7. 📅  Go back to dashboard → Schedule a meeting
 ```
 
-## Deployment Guide
+---
 
-### Backend on Render
+## 📝 Assumptions
 
-1. Push repository to GitHub.
-2. Create a new Render Web Service.
-3. Set root directory to `backend`.
-4. Build command:
+- **No login required** — a default user is assumed to be logged in
+- **First participant** in a room automatically becomes the host
+- **Display name match** → treated as host if it matches the host name
+- **SQLite** used as required by the assignment spec
+- **WebSocket room state** is in-memory (represents live connected users only)
+- **Durable data** (meetings, participants, chat) is persisted in SQLite
 
-```bash
-pip install -r requirements.txt
-```
+---
 
-5. Start command:
+## 🧠 Architecture Summary
 
-```bash
-uvicorn app.main:app --host 0.0.0.0 --port $PORT
-```
+> *REST APIs handle durable workflows (create, join, schedule). WebSockets handle ephemeral real-time events (signaling, chat, mute state, participant updates). WebRTC carries actual audio/video directly between browsers. FastAPI acts as the signaling relay. SQLite stores all durable state in normalized relationships.*
 
-6. Add environment variables:
+---
 
-```text
-FRONTEND_ORIGIN=https://your-vercel-app.vercel.app
-CORS_ORIGINS=https://your-vercel-app.vercel.app
-DATABASE_URL=sqlite:///./zoom_clone.db
-```
+<div align="center">
 
-### Frontend on Vercel
+<img src="https://capsule-render.vercel.app/api?type=waving&color=0:00C2FF,100:2D8CFF&height=120&section=footer&animation=fadeIn" width="100%"/>
 
-1. Import the GitHub repository on Vercel.
-2. Set root directory to `frontend`.
-3. Add environment variable:
 
-```text
-NEXT_PUBLIC_API_URL=https://your-render-backend.onrender.com
-```
-
-4. Deploy.
-
-## Important WebRTC Notes
-
-- Camera and microphone access require `localhost` or HTTPS.
-- Deployed frontend/backend should use HTTPS/WSS.
-- This project uses peer-to-peer mesh WebRTC, which is good for assignment demos and small rooms.
-- Production Zoom-scale systems usually use SFU/media servers such as LiveKit, mediasoup, Janus, or Twilio.
-- A TURN server is recommended for better NAT traversal in production.
-
-## Suggested Demo Flow
-
-1. Open dashboard.
-2. Click **New Meeting**.
-3. Copy invite link.
-4. Open the invite in another browser/incognito tab.
-5. Join with a second display name.
-6. Test:
-   - Audio/video tiles
-   - Mute/unmute
-   - Stop/start camera
-   - Chat
-   - Screen share
-   - Host mute all
-   - Host remove participant
-7. Go back to dashboard and schedule a meeting.
-
-## Assumptions
-
-- No login required; default user is assumed to be logged in.
-- First participant in a meeting becomes host.
-- If display name matches host name, that participant is also treated as host.
-- SQLite is used as required by the assignment.
-- WebSocket room state is stored in memory because it only represents currently connected users.
-- Durable meeting, participant, and chat records are stored in SQLite.
-
-## Interview Explanation Summary
-
-I separated the project into frontend, backend, database, and real-time layers. REST APIs handle durable workflows like creating, joining, and scheduling meetings. WebSockets handle temporary real-time events such as signaling, chat, mute state, and participant updates. WebRTC handles actual audio/video streams directly between browsers, while FastAPI acts as the signaling server. SQLite stores meetings, participant sessions, and chat history using normalized relationships.
+</div>
