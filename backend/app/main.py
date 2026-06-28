@@ -1,3 +1,4 @@
+from fastapi import Response
 import base64
 import json
 import os
@@ -2363,3 +2364,50 @@ def share_meeting_to_slack(
         "channel": payload.channel,
         "meeting_id": payload.meeting_id,
     }
+
+
+# --- PRODUCTION CORS FIX START ---
+def build_cors_origins() -> list[str]:
+    raw_origins = os.getenv("CORS_ORIGINS", "")
+    frontend_origin = os.getenv("FRONTEND_ORIGIN", "")
+
+    origins = [
+        origin.strip().rstrip("/")
+        for origin in raw_origins.split(",")
+        if origin.strip()
+    ]
+
+    if frontend_origin.strip():
+        normalized_frontend = frontend_origin.strip().rstrip("/")
+        if normalized_frontend not in origins:
+            origins.append(normalized_frontend)
+
+    local_origins = [
+        "http://localhost:3000",
+        "http://127.0.0.1:3000",
+    ]
+
+    for origin in local_origins:
+        if origin not in origins:
+            origins.append(origin)
+
+    return origins
+
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=build_cors_origins(),
+    allow_origin_regex=r"https://.*\.vercel\.app",
+    allow_credentials=True,
+    allow_methods=["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
+    allow_headers=["*"],
+    expose_headers=["*"],
+    max_age=86400,
+)
+
+
+@app.options("/{full_path:path}", include_in_schema=False)
+async def cors_preflight(full_path: str):
+    return Response(status_code=204)
+# --- PRODUCTION CORS FIX END ---
+
