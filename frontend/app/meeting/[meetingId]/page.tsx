@@ -6,6 +6,21 @@ import { getWsUrl, joinMeeting, leaveMeeting } from "@/lib/api";
 import { ChatMessage, Meeting, RoomParticipant } from "@/lib/types";
 import { MeetingRecorder } from "@/components/MeetingRecorder";
 
+type JoinedParticipantShape = {
+  public_id?: string;
+  publicId?: string;
+  id?: string;
+  participant_id?: string;
+  display_name?: string;
+  displayName?: string;
+  is_host?: boolean;
+  isHost?: boolean;
+  is_muted?: boolean;
+  isMuted?: boolean;
+  camera_on?: boolean;
+  cameraOn?: boolean;
+};
+
 function RemoteVideo({ stream, name }: { stream: MediaStream; name: string }) {
   const videoRef = useRef<HTMLVideoElement | null>(null);
 
@@ -61,9 +76,31 @@ function MeetingRoomContent() {
 
         if (!mounted) return;
 
-        participantIdRef.current = join.participant_id;
+        const joinedParticipant = join.participant as JoinedParticipantShape;
+
+        const joinedParticipantId =
+          joinedParticipant.public_id ||
+          joinedParticipant.publicId ||
+          joinedParticipant.id ||
+          joinedParticipant.participant_id ||
+          "";
+
+        if (!joinedParticipantId) {
+          throw new Error("Participant ID missing from join response");
+        }
+
+        const joinedIsHost = Boolean(joinedParticipant.is_host ?? joinedParticipant.isHost);
+        const joinedIsMuted = Boolean(joinedParticipant.is_muted ?? joinedParticipant.isMuted);
+        const joinedCameraOn = Boolean(
+          joinedParticipant.camera_on ?? joinedParticipant.cameraOn ?? true,
+        );
+
+        participantIdRef.current = joinedParticipantId;
+
         setMeeting(join.meeting);
-        setIsHost(join.is_host);
+        setIsHost(joinedIsHost);
+        setIsMuted(joinedIsMuted);
+        setCameraOn(joinedCameraOn);
 
         try {
           const stream = await navigator.mediaDevices.getUserMedia({
@@ -80,7 +117,7 @@ function MeetingRoomContent() {
           setError("Camera/microphone permission denied. You can still join with chat.");
         }
 
-        connectSocket(join.participant_id, join.is_host);
+        connectSocket(joinedParticipantId, joinedIsHost);
       } catch {
         setError("Could not join meeting. Please verify the meeting ID.");
       }
@@ -106,7 +143,13 @@ function MeetingRoomContent() {
   }, [meetingId, displayName]);
 
   function connectSocket(participantId: string, host: boolean) {
-    const ws = new WebSocket(getWsUrl(meetingId, participantId, displayName, host));
+    const socketPath = `/ws/meetings/${encodeURIComponent(
+      meetingId,
+    )}?participantId=${encodeURIComponent(participantId)}&displayName=${encodeURIComponent(
+      displayName,
+    )}&isHost=${host ? "true" : "false"}`;
+
+    const ws = new WebSocket(getWsUrl(socketPath));
     socketRef.current = ws;
 
     ws.onopen = () => setConnected(true);
@@ -167,7 +210,14 @@ function MeetingRoomContent() {
       }
 
       if (data.type === "chat-message") {
-        setMessages((old) => [...old, data]);
+        const normalizedMessage = {
+          ...data,
+          id: data.id || `${Date.now()}-${Math.random()}`,
+          senderName: data.senderName || data.sender_name || displayName,
+          message: data.message || "",
+        } as ChatMessage;
+
+        setMessages((old) => [...old, normalizedMessage]);
       }
 
       if (data.type === "mute-all") {
