@@ -1,9 +1,13 @@
 ﻿"use client";
 
-import { PointerEvent, useEffect, useMemo, useRef, useState } from "react";
+import { PointerEvent, useEffect, useRef, useState } from "react";
 import { DashboardHeader } from "@/components/DashboardHeader";
-import { getWsUrl } from "@/lib/api";
 import { WhiteboardStroke, WorkspaceUser } from "@/lib/types";
+
+const API_BASE =
+  process.env.NEXT_PUBLIC_API_BASE_URL ||
+  process.env.NEXT_PUBLIC_API_BASE ||
+  "http://localhost:8000";
 
 type RawWorkspaceUser = {
   clientId?: string;
@@ -42,16 +46,15 @@ function getClientId() {
 function getCurrentUserName() {
   if (typeof window === "undefined") return "Guest";
 
-  const possibleKeys = ["meetsync-user-v2", "meetsync-auth-v2", "meetsync-user"];
+  const keys = ["meetsync-user-v2", "meetsync-auth-v2", "meetsync-user"];
 
-  for (const key of possibleKeys) {
+  for (const key of keys) {
     const raw = localStorage.getItem(key);
 
     if (!raw) continue;
 
     try {
       const parsed = JSON.parse(raw);
-
       const name =
         parsed?.name ||
         parsed?.user?.name ||
@@ -68,6 +71,19 @@ function getCurrentUserName() {
   }
 
   return "Guest";
+}
+
+function buildWorkspaceWsUrl(roomId: string, clientId: string, displayName: string) {
+  const cleanBase = API_BASE.replace(/\/$/, "");
+  const wsBase = cleanBase.startsWith("https://")
+    ? cleanBase.replace("https://", "wss://")
+    : cleanBase.replace("http://", "ws://");
+
+  const encodedRoomId = encodeURIComponent(roomId);
+  const encodedClientId = encodeURIComponent(clientId);
+  const encodedName = encodeURIComponent(displayName);
+
+  return `${wsBase}/ws/workspace/${encodedRoomId}?client_id=${encodedClientId}&clientId=${encodedClientId}&name=${encodedName}&displayName=${encodedName}`;
 }
 
 function normalizeUser(user: RawWorkspaceUser, fallbackClientId: string, fallbackName: string) {
@@ -95,10 +111,12 @@ function drawStroke(canvas: HTMLCanvasElement, stroke: WhiteboardStroke) {
 
   if (!ctx) return;
 
+  const pixelRatio = window.devicePixelRatio || 1;
+
   ctx.lineCap = "round";
   ctx.lineJoin = "round";
   ctx.strokeStyle = stroke.color;
-  ctx.lineWidth = stroke.width * window.devicePixelRatio;
+  ctx.lineWidth = stroke.width * pixelRatio;
 
   ctx.beginPath();
   ctx.moveTo(stroke.x0 * canvas.width, stroke.y0 * canvas.height);
@@ -112,14 +130,12 @@ export default function WhiteboardsPage() {
   const lastPointRef = useRef<{ x: number; y: number } | null>(null);
   const strokesRef = useRef<WhiteboardStroke[]>([]);
 
-  const clientId = useMemo(() => getClientId(), []);
-  const displayName = useMemo(() => getCurrentUserName(), []);
-
   const [users, setUsers] = useState<WorkspaceUser[]>([]);
   const [connected, setConnected] = useState(false);
   const [color, setColor] = useState("#0b5cff");
   const [width, setWidth] = useState(4);
   const [error, setError] = useState("");
+  const [displayName, setDisplayName] = useState("Guest");
 
   function redrawCanvas() {
     const canvas = canvasRef.current;
@@ -161,40 +177,25 @@ export default function WhiteboardsPage() {
   }, []);
 
   useEffect(() => {
-    const encodedClientId = encodeURIComponent(clientId);
-    const encodedDisplayName = encodeURIComponent(displayName);
+    const resolvedClientId = getClientId();
+    const resolvedName = getCurrentUserName();
 
-    const socketPath = `/ws/workspace/whiteboard-main?clientId=${encodedClientId}&client_id=${encodedClientId}&displayName=${encodedDisplayName}&name=${encodedDisplayName}`;
+    setDisplayName(resolvedName);
 
-    const ws = new WebSocket(getWsUrl(socketPath));
+    const ws = new WebSocket(buildWorkspaceWsUrl("whiteboard-main", resolvedClientId, resolvedName));
     socketRef.current = ws;
 
     ws.onopen = () => {
       setConnected(true);
       setError("");
 
-      const currentUser = normalizeUser(
-        {
-          clientId,
-          name: displayName,
-        },
-        clientId,
-        displayName,
-      );
-
-      setUsers((old) => {
-        const exists = old.some((user) => user.clientId === currentUser.clientId);
-
-        if (exists) return old;
-
-        return [currentUser, ...old];
-      });
-
       ws.send(
         JSON.stringify({
           type: "presence",
-          clientId,
-          name: displayName,
+          client_id: resolvedClientId,
+          clientId: resolvedClientId,
+          name: resolvedName,
+          displayName: resolvedName,
         }),
       );
     };
@@ -216,14 +217,14 @@ export default function WhiteboardsPage() {
         if (Array.isArray(data.users)) {
           setUsers(
             data.users.map((user: RawWorkspaceUser) =>
-              normalizeUser(user, clientId, displayName),
+              normalizeUser(user, resolvedClientId, resolvedName),
             ),
           );
         }
 
         if (Array.isArray(data.strokes)) {
           strokesRef.current = data.strokes.map((stroke: RawWhiteboardStroke) =>
-            normalizeStroke(stroke, displayName),
+            normalizeStroke(stroke, resolvedName),
           );
 
           setTimeout(() => {
@@ -238,13 +239,13 @@ export default function WhiteboardsPage() {
         if (Array.isArray(data.users)) {
           setUsers(
             data.users.map((user: RawWorkspaceUser) =>
-              normalizeUser(user, clientId, displayName),
+              normalizeUser(user, resolvedClientId, resolvedName),
             ),
           );
           return;
         }
 
-        const user = normalizeUser(data, clientId, displayName);
+        const user = normalizeUser(data, resolvedClientId, resolvedName);
 
         setUsers((old) => {
           const exists = old.some((item) => item.clientId === user.clientId);
@@ -260,7 +261,7 @@ export default function WhiteboardsPage() {
       }
 
       if (data.type === "whiteboard-draw" && canvas && data.stroke) {
-        const stroke = normalizeStroke(data.stroke, displayName);
+        const stroke = normalizeStroke(data.stroke, resolvedName);
 
         strokesRef.current.push(stroke);
         drawStroke(canvas, stroke);
@@ -273,12 +274,6 @@ export default function WhiteboardsPage() {
 
         const ctx = canvas.getContext("2d");
         ctx?.clearRect(0, 0, canvas.width, canvas.height);
-
-        return;
-      }
-
-      if (data.type === "system") {
-        return;
       }
     };
 
@@ -286,7 +281,7 @@ export default function WhiteboardsPage() {
       ws.close();
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [clientId, displayName]);
+  }, []);
 
   function pointerPosition(event: PointerEvent<HTMLCanvasElement>) {
     const canvas = event.currentTarget;

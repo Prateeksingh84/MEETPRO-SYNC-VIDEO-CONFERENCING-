@@ -1,10 +1,15 @@
 ﻿"use client";
 
-import { FormEvent, useEffect, useMemo, useRef, useState } from "react";
+import { FormEvent, useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { DashboardHeader } from "@/components/DashboardHeader";
-import { createInstantMeeting, getWsUrl } from "@/lib/api";
+import { createInstantMeeting } from "@/lib/api";
 import { WorkspaceChatMessage, WorkspaceUser } from "@/lib/types";
+
+const API_BASE =
+  process.env.NEXT_PUBLIC_API_BASE_URL ||
+  process.env.NEXT_PUBLIC_API_BASE ||
+  "http://localhost:8000";
 
 type RawWorkspaceUser = {
   clientId?: string;
@@ -78,6 +83,19 @@ function getCurrentUserName() {
   return "Guest";
 }
 
+function buildWorkspaceWsUrl(roomId: string, clientId: string, displayName: string) {
+  const cleanBase = API_BASE.replace(/\/$/, "");
+  const wsBase = cleanBase.startsWith("https://")
+    ? cleanBase.replace("https://", "wss://")
+    : cleanBase.replace("http://", "ws://");
+
+  const encodedRoomId = encodeURIComponent(roomId);
+  const encodedClientId = encodeURIComponent(clientId);
+  const encodedName = encodeURIComponent(displayName);
+
+  return `${wsBase}/ws/workspace/${encodedRoomId}?client_id=${encodedClientId}&clientId=${encodedClientId}&name=${encodedName}&displayName=${encodedName}`;
+}
+
 function normalizeUser(user: RawWorkspaceUser, fallbackClientId: string, fallbackName: string) {
   return {
     clientId: user.clientId || user.client_id || user.id || fallbackClientId,
@@ -100,23 +118,23 @@ function normalizeMessage(
 export default function TeamChatPage() {
   const socketRef = useRef<WebSocket | null>(null);
 
-  const clientId = useMemo(() => getClientId(), []);
-  const displayName = useMemo(() => getCurrentUserName(), []);
-
   const [connected, setConnected] = useState(false);
   const [users, setUsers] = useState<WorkspaceUser[]>([]);
   const [messages, setMessages] = useState<WorkspaceChatMessage[]>([]);
   const [message, setMessage] = useState("");
   const [huddleLink, setHuddleLink] = useState("");
   const [error, setError] = useState("");
+  const [clientId, setClientId] = useState("server-client");
+  const [displayName, setDisplayName] = useState("Guest");
 
   useEffect(() => {
-    const encodedClientId = encodeURIComponent(clientId);
-    const encodedDisplayName = encodeURIComponent(displayName);
+    const resolvedClientId = getClientId();
+    const resolvedName = getCurrentUserName();
 
-    const socketPath = `/ws/workspace/team-chat?clientId=${encodedClientId}&client_id=${encodedClientId}&displayName=${encodedDisplayName}&name=${encodedDisplayName}`;
+    setClientId(resolvedClientId);
+    setDisplayName(resolvedName);
 
-    const ws = new WebSocket(getWsUrl(socketPath));
+    const ws = new WebSocket(buildWorkspaceWsUrl("team-chat", resolvedClientId, resolvedName));
     socketRef.current = ws;
 
     ws.onopen = () => {
@@ -126,8 +144,10 @@ export default function TeamChatPage() {
       ws.send(
         JSON.stringify({
           type: "presence",
-          clientId,
-          name: displayName,
+          client_id: resolvedClientId,
+          clientId: resolvedClientId,
+          name: resolvedName,
+          displayName: resolvedName,
         }),
       );
     };
@@ -147,13 +167,13 @@ export default function TeamChatPage() {
       if (data.type === "workspace-init") {
         setUsers(
           (data.users || []).map((user: RawWorkspaceUser) =>
-            normalizeUser(user, clientId, displayName),
+            normalizeUser(user, resolvedClientId, resolvedName),
           ),
         );
 
         setMessages(
           (data.messages || []).map((item: RawWorkspaceMessage) =>
-            normalizeMessage(item, displayName),
+            normalizeMessage(item, resolvedName),
           ),
         );
 
@@ -164,13 +184,13 @@ export default function TeamChatPage() {
         if (Array.isArray(data.users)) {
           setUsers(
             data.users.map((user: RawWorkspaceUser) =>
-              normalizeUser(user, clientId, displayName),
+              normalizeUser(user, resolvedClientId, resolvedName),
             ),
           );
           return;
         }
 
-        const user = normalizeUser(data, clientId, displayName);
+        const user = normalizeUser(data, resolvedClientId, resolvedName);
 
         setUsers((old) => {
           const exists = old.some((item) => item.clientId === user.clientId);
@@ -194,14 +214,14 @@ export default function TeamChatPage() {
                 message: data.message,
               };
 
-        setMessages((old) => [...old, normalizeMessage(rawMessage, displayName)]);
+        setMessages((old) => [...old, normalizeMessage(rawMessage, resolvedName)]);
       }
     };
 
     return () => {
       ws.close();
     };
-  }, [clientId, displayName]);
+  }, []);
 
   function sendMessage(event: FormEvent) {
     event.preventDefault();
@@ -214,8 +234,11 @@ export default function TeamChatPage() {
       JSON.stringify({
         type: "chat-message",
         id: `${Date.now()}-${Math.random()}`,
+        client_id: clientId,
         clientId,
         senderName: displayName,
+        sender_name: displayName,
+        name: displayName,
         message: body,
         createdAt: new Date().toISOString(),
       }),
@@ -226,7 +249,7 @@ export default function TeamChatPage() {
 
   async function startHuddle() {
     try {
-      const createdMeeting = (await createInstantMeeting(displayName)) as CreatedMeetingShape;
+      const createdMeeting = (await createInstantMeeting(displayName)) as unknown as CreatedMeetingShape;
 
       const meetingId =
         createdMeeting.meeting_id || createdMeeting.public_id || createdMeeting.id || "";
@@ -245,8 +268,11 @@ export default function TeamChatPage() {
         JSON.stringify({
           type: "chat-message",
           id: `${Date.now()}-${Math.random()}`,
+          client_id: clientId,
           clientId,
           senderName: displayName,
+          sender_name: displayName,
+          name: displayName,
           message: `Started a live huddle: ${
             createdMeeting.invite_link || createdMeeting.inviteLink || absoluteMeetingLink
           }`,
@@ -294,7 +320,6 @@ export default function TeamChatPage() {
               {users.map((user) => (
                 <div className="live-user" key={user.clientId}>
                   <span className="status-dot" />
-
                   <div>
                     <strong>{user.name}</strong>
                     <small>Connected to Team Chat</small>
@@ -341,6 +366,3 @@ export default function TeamChatPage() {
     </main>
   );
 }
-
-
-
