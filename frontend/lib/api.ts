@@ -294,8 +294,10 @@ export type IntegrationApp = {
   description: string;
   icon: string;
   category: string;
-  status: "connected" | "not_connected" | "oauth_required";
+  status: "connected" | "not_connected" | "not_configured" | "oauth_required";
   actionLabel: string;
+  configured?: boolean;
+  configurationMessage?: string;
 };
 
 export type AppsResponse = {
@@ -470,3 +472,4 @@ export async function deleteMeetingRecording(recordingId: string): Promise<{ mes
 export function getRecordingDownloadUrl(recordingId: string): string {
   return `${API_BASE}/api/recordings/${recordingId}/download`;
 }
+

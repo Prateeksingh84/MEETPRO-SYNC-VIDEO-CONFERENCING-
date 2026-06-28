@@ -92,3 +92,4 @@ export type AppEvent = {
   actor: string;
   createdAt: string;
 };
+
