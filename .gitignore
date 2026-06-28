@@ -1,15 +1,18 @@
-@"
 # Python
 __pycache__/
 *.py[cod]
 *.pyo
 *.pyd
-.Python
 backend/.venv/
 backend/venv/
+.venv/
 venv/
+
+# Environment files
 .env
+.env.local
 backend/.env
+frontend/.env.local
 
 # Database / local storage
 *.db
@@ -27,10 +30,6 @@ out/
 dist/
 build/
 
-# Environment files
-.env.local
-frontend/.env.local
-
 # Logs
 *.log
 npm-debug.log*
@@ -45,4 +44,3 @@ Thumbs.db
 
 # Temporary generated files
 project-structure.txt
-"@ | Set-Content .gitignore
