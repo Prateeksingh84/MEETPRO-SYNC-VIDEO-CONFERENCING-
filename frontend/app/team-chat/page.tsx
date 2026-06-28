@@ -3,7 +3,7 @@
 import { FormEvent, useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import { DashboardHeader } from "@/components/DashboardHeader";
-import { createInstantMeeting, getWorkspaceWsUrl } from "@/lib/api";
+import { createInstantMeeting, getWsUrl } from "@/lib/api";
 import { WorkspaceChatMessage, WorkspaceUser } from "@/lib/types";
 
 type RawWorkspaceUser = {
@@ -111,11 +111,12 @@ export default function TeamChatPage() {
   const [error, setError] = useState("");
 
   useEffect(() => {
-    const socketPath = `/ws/workspace/team-chat?clientId=${encodeURIComponent(
-      clientId,
-    )}&displayName=${encodeURIComponent(displayName)}`;
+    const encodedClientId = encodeURIComponent(clientId);
+    const encodedDisplayName = encodeURIComponent(displayName);
 
-    const ws = new WebSocket(getWorkspaceWsUrl(socketPath));
+    const socketPath = `/ws/workspace/team-chat?clientId=${encodedClientId}&client_id=${encodedClientId}&displayName=${encodedDisplayName}&name=${encodedDisplayName}`;
+
+    const ws = new WebSocket(getWsUrl(socketPath));
     socketRef.current = ws;
 
     ws.onopen = () => {
@@ -340,4 +341,6 @@ export default function TeamChatPage() {
     </main>
   );
 }
+
+
 

@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { PointerEvent, useEffect, useMemo, useRef, useState } from "react";
 import { DashboardHeader } from "@/components/DashboardHeader";
@@ -161,9 +161,10 @@ export default function WhiteboardsPage() {
   }, []);
 
   useEffect(() => {
-    const socketPath = `/ws/workspace/whiteboard-main?clientId=${encodeURIComponent(
-      clientId,
-    )}&displayName=${encodeURIComponent(displayName)}`;
+    const encodedClientId = encodeURIComponent(clientId);
+    const encodedDisplayName = encodeURIComponent(displayName);
+
+    const socketPath = `/ws/workspace/whiteboard-main?clientId=${encodedClientId}&client_id=${encodedClientId}&displayName=${encodedDisplayName}&name=${encodedDisplayName}`;
 
     const ws = new WebSocket(getWsUrl(socketPath));
     socketRef.current = ws;
