@@ -7663,3 +7663,583 @@ html[data-theme="dark"] .inline-photo-editor h4 {
 }
 
 /* === MeetSync Product UX Fix END === */
+
+
+/* === MeetSync Meeting Media Fix START === */
+
+body:has(.zoom-room-page) {
+  overflow: hidden;
+  background: #161616;
+}
+
+body:has(.zoom-room-page) .ms-cookie-float,
+body:has(.zoom-room-page) .ms-cookie-launcher,
+body:has(.zoom-room-page) .cookie-settings-float,
+body:has(.zoom-room-page) .cookie-preference-float,
+body:has(.zoom-room-page) .privacy-cookie-float,
+body:has(.zoom-room-page) .ms-privacy-float,
+body:has(.zoom-room-page) .ms-agent-float,
+body:has(.zoom-room-page) .ms-virtual-agent-float,
+body:has(.zoom-room-page) .virtual-agent-float,
+body:has(.zoom-room-page) .virtual-agent-launcher,
+body:has(.zoom-room-page) .meet-agent-float,
+body:has(.zoom-room-page) .landing-agent-float,
+body:has(.zoom-room-page) .floating-agent,
+body:has(.zoom-room-page) .floating-cookie,
+body:has(.ms-products-page) .ms-cookie-float,
+body:has(.ms-products-page) .ms-agent-float,
+body:has(.ms-route-page) .ms-cookie-float,
+body:has(.ms-route-page) .ms-agent-float,
+body:has(.dashboard-page) .ms-cookie-float,
+body:has(.dashboard-page) .ms-agent-float {
+  display: none !important;
+}
+
+.zoom-room-page {
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden;
+  background: #161616;
+  color: #ffffff;
+  display: grid;
+  grid-template-rows: 56px 1fr 72px;
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+.zoom-topbar {
+  height: 56px;
+  background: #050505;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 26px;
+  z-index: 20;
+}
+
+.zoom-topbar > div:first-child {
+  display: grid;
+  line-height: 1.05;
+}
+
+.zoom-topbar span {
+  color: #d6d6d6;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.zoom-topbar strong {
+  color: #ffffff;
+  font-size: 18px;
+  font-weight: 1000;
+}
+
+.zoom-top-actions {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.zoom-top-actions button,
+.zoom-top-actions a {
+  border: 0;
+  border-radius: 12px;
+  background: #2a2a2a;
+  color: #ffffff;
+  min-height: 38px;
+  padding: 0 14px;
+  display: inline-flex;
+  align-items: center;
+  text-decoration: none;
+  font-weight: 900;
+  cursor: pointer;
+}
+
+.zoom-top-actions .live {
+  color: #22c55e;
+}
+
+.zoom-top-actions .offline {
+  color: #f87171;
+}
+
+.zoom-profile-dot {
+  width: 38px;
+  height: 38px;
+  border-radius: 999px;
+  background: #0b5cff;
+  display: grid;
+  place-items: center;
+  font-weight: 1000;
+}
+
+.zoom-permission-banner {
+  position: fixed;
+  top: 72px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: min(760px, calc(100% - 32px));
+  border: 1px solid rgba(248, 113, 113, 0.45);
+  background: rgba(69, 10, 10, 0.95);
+  color: #fecaca;
+  border-radius: 16px;
+  padding: 14px 16px;
+  z-index: 70;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  box-shadow: 0 26px 80px rgba(0, 0, 0, 0.35);
+}
+
+.zoom-permission-banner button {
+  border: 0;
+  border-radius: 12px;
+  background: #ffffff;
+  color: #111827;
+  min-height: 38px;
+  padding: 0 14px;
+  font-weight: 1000;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.zoom-joining-toast {
+  position: fixed;
+  top: 72px;
+  right: 22px;
+  border-radius: 999px;
+  background: rgba(15, 23, 42, 0.9);
+  border: 1px solid rgba(148, 163, 184, 0.24);
+  padding: 10px 16px;
+  z-index: 60;
+  color: #dbeafe;
+  font-weight: 900;
+}
+
+.zoom-meeting-shell {
+  min-height: 0;
+  display: grid;
+  grid-template-columns: 1fr;
+}
+
+.zoom-meeting-shell.panel-open {
+  grid-template-columns: minmax(0, 1fr) 430px;
+}
+
+.zoom-stage {
+  position: relative;
+  min-height: 0;
+  padding: 18px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
+  grid-auto-rows: minmax(260px, 1fr);
+  gap: 14px;
+  background: #161616;
+  overflow: auto;
+}
+
+.zoom-video-tile {
+  position: relative;
+  min-height: 260px;
+  border-radius: 6px;
+  overflow: hidden;
+  background: #1d1d1d;
+  border: 1px solid rgba(255, 255, 255, 0.04);
+  display: grid;
+  place-items: center;
+}
+
+.zoom-video-tile.self {
+  border-color: rgba(11, 92, 255, 0.45);
+}
+
+.zoom-live-video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  background: #111111;
+}
+
+.zoom-avatar-tile {
+  width: 100%;
+  height: 100%;
+  min-height: 260px;
+  display: grid;
+  place-items: center;
+  align-content: center;
+  gap: 12px;
+  background: #1b1b1b;
+}
+
+.zoom-avatar-tile div {
+  width: 96px;
+  height: 96px;
+  border-radius: 0;
+  background: #c2185b;
+  color: #ffffff;
+  display: grid;
+  place-items: center;
+  font-size: 42px;
+  font-weight: 900;
+}
+
+.zoom-avatar-tile strong {
+  color: #ffffff;
+  font-size: 18px;
+}
+
+.zoom-avatar-tile span {
+  color: #b8b8b8;
+  font-size: 14px;
+}
+
+.zoom-name-pill {
+  position: absolute;
+  left: 12px;
+  bottom: 12px;
+  min-height: 30px;
+  padding: 0 10px;
+  border-radius: 4px;
+  background: rgba(0, 0, 0, 0.82);
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.zoom-name-pill b {
+  font-size: 13px;
+}
+
+.zoom-waiting-card {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  align-content: center;
+  text-align: center;
+  pointer-events: none;
+}
+
+.zoom-waiting-card div {
+  width: 104px;
+  height: 104px;
+  border-radius: 0;
+  background: #c2185b;
+  display: grid;
+  place-items: center;
+  font-size: 42px;
+  margin-bottom: 84px;
+}
+
+.zoom-waiting-card h1 {
+  margin: 0;
+  font-size: 28px;
+  color: #ffffff;
+  letter-spacing: -0.03em;
+}
+
+.zoom-waiting-card p {
+  width: min(620px, 90%);
+  margin: 210px auto 18px;
+  color: #d1d5db;
+  font-size: 20px;
+  line-height: 1.45;
+}
+
+.zoom-waiting-card button {
+  pointer-events: auto;
+  border: 0;
+  border-radius: 12px;
+  background: #0b5cff;
+  color: #ffffff;
+  min-height: 44px;
+  padding: 0 18px;
+  font-weight: 1000;
+  cursor: pointer;
+}
+
+.zoom-side-panel {
+  min-width: 0;
+  height: 100%;
+  background: #0f0f0f;
+  border-left: 1px solid rgba(255, 255, 255, 0.12);
+  display: grid;
+  grid-template-rows: auto 1fr;
+  overflow: hidden;
+}
+
+.zoom-panel-tabs {
+  height: 60px;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 48px;
+  align-items: center;
+  gap: 8px;
+  padding: 10px;
+  background: #171717;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.zoom-panel-tabs button {
+  height: 40px;
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  color: #d1d5db;
+  font-weight: 1000;
+  cursor: pointer;
+}
+
+.zoom-panel-tabs button.active {
+  background: #0b5cff;
+  color: #ffffff;
+}
+
+.zoom-panel-tabs button:last-child {
+  background: #2a2a2a;
+  color: #ffffff;
+  font-size: 22px;
+}
+
+.zoom-panel-section {
+  min-height: 0;
+  padding: 22px;
+  overflow: auto;
+}
+
+.zoom-panel-section h2 {
+  margin: 0;
+  color: #ffffff;
+  font-size: 26px;
+  letter-spacing: -0.04em;
+}
+
+.zoom-panel-section > p {
+  margin: 6px 0 18px;
+  color: #d1d5db;
+}
+
+.zoom-participant-list {
+  display: grid;
+  gap: 12px;
+}
+
+.zoom-participant-card {
+  border-radius: 14px;
+  background: #1f1f1f;
+  padding: 14px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.zoom-participant-card > div {
+  width: 44px;
+  height: 44px;
+  border-radius: 14px;
+  background: #0b5cff;
+  color: #ffffff;
+  display: grid;
+  place-items: center;
+  font-weight: 1000;
+}
+
+.zoom-participant-card span {
+  display: grid;
+  gap: 4px;
+}
+
+.zoom-participant-card strong {
+  color: #ffffff;
+}
+
+.zoom-participant-card small {
+  color: #a3a3a3;
+}
+
+.zoom-chat-panel {
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+}
+
+.zoom-chat-list {
+  min-height: 0;
+  overflow: auto;
+  display: grid;
+  align-content: start;
+  gap: 12px;
+  margin: 18px 0;
+}
+
+.zoom-chat-message {
+  border-radius: 14px;
+  background: #1f1f1f;
+  padding: 12px;
+}
+
+.zoom-chat-message strong {
+  color: #ffffff;
+  display: block;
+}
+
+.zoom-chat-message small {
+  color: #a3a3a3;
+}
+
+.zoom-chat-message p {
+  margin: 8px 0 0;
+  color: #e5e7eb;
+  line-height: 1.5;
+}
+
+.zoom-empty {
+  border: 1px dashed rgba(255, 255, 255, 0.16);
+  border-radius: 16px;
+  padding: 18px;
+  color: #a3a3a3;
+  text-align: center;
+}
+
+.zoom-chat-form {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 10px;
+}
+
+.zoom-chat-form input {
+  min-height: 46px;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 999px;
+  background: #1f1f1f;
+  color: #ffffff;
+  padding: 0 16px;
+  outline: none;
+}
+
+.zoom-chat-form button {
+  min-height: 46px;
+  border: 0;
+  border-radius: 999px;
+  background: #0b5cff;
+  color: #ffffff;
+  padding: 0 18px;
+  font-weight: 1000;
+  cursor: pointer;
+}
+
+.zoom-toolbar {
+  height: 72px;
+  background: #050505;
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+  display: flex;
+  justify-content: center;
+  align-items: stretch;
+  gap: 18px;
+  padding: 6px 16px;
+  z-index: 30;
+}
+
+.zoom-toolbar button {
+  position: relative;
+  min-width: 78px;
+  border: 0;
+  border-radius: 12px;
+  background: transparent;
+  color: #ffffff;
+  display: grid;
+  place-items: center;
+  align-content: center;
+  gap: 3px;
+  cursor: pointer;
+}
+
+.zoom-toolbar button:hover {
+  background: #202020;
+}
+
+.zoom-toolbar span {
+  font-size: 22px;
+  line-height: 1;
+}
+
+.zoom-toolbar b {
+  font-size: 12px;
+  font-weight: 1000;
+}
+
+.zoom-toolbar em {
+  position: absolute;
+  top: 4px;
+  right: 10px;
+  min-width: 18px;
+  height: 18px;
+  border-radius: 999px;
+  background: #334155;
+  color: #ffffff;
+  font-style: normal;
+  display: grid;
+  place-items: center;
+  font-size: 11px;
+  font-weight: 900;
+}
+
+.zoom-toolbar .danger-tool span,
+.zoom-toolbar .danger-tool b {
+  color: #ff5d5d;
+}
+
+.zoom-toolbar .share-active span,
+.zoom-toolbar .share-active b {
+  color: #22c55e;
+}
+
+.zoom-toolbar .leave-tool {
+  color: #ff5d5d;
+}
+
+.recording-card {
+  border-radius: 18px !important;
+  background: #1f1f1f !important;
+}
+
+@media (max-width: 1100px) {
+  .zoom-meeting-shell.panel-open {
+    grid-template-columns: 1fr;
+  }
+
+  .zoom-side-panel {
+    position: fixed;
+    right: 0;
+    top: 56px;
+    bottom: 72px;
+    width: min(430px, 100vw);
+    z-index: 50;
+  }
+
+  .zoom-stage {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 760px) {
+  .zoom-topbar {
+    padding: 0 14px;
+  }
+
+  .zoom-top-actions a,
+  .zoom-top-actions button {
+    display: none;
+  }
+
+  .zoom-toolbar {
+    overflow-x: auto;
+    justify-content: flex-start;
+  }
+
+  .zoom-waiting-card p {
+    margin-top: 120px;
+    font-size: 16px;
+  }
+}
+
+/* === MeetSync Meeting Media Fix END === */

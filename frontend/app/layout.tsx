@@ -1,4 +1,5 @@
-﻿import type { Metadata, Viewport } from "next";
+﻿import { RouteWidgetGuard } from "@/components/RouteWidgetGuard";
+import type { Metadata, Viewport } from "next";
 import "./globals.css";
 import { MeetSyncCookiePreferences } from "@/components/MeetSyncCookiePreferences";
 import { MeetSyncVirtualAgent } from "@/components/MeetSyncVirtualAgent";
@@ -81,7 +82,9 @@ export default function RootLayout({
         {children}
         <MeetSyncCookiePreferences />
         <MeetSyncVirtualAgent />
+              <RouteWidgetGuard />
       </body>
     </html>
   );
 }
+
