@@ -1,3 +1,4 @@
+import { RemoveLandingPromoBanner } from "@/components/RemoveLandingPromoBanner";
 import { LandingHeaderSearchFix } from "@/components/LandingHeaderSearchFix";
 ﻿import { RouteWidgetGuard } from "@/components/RouteWidgetGuard";
 import type { Metadata, Viewport } from "next";
@@ -85,6 +86,7 @@ export default function RootLayout({
         <MeetSyncVirtualAgent />
               <RouteWidgetGuard />
               <LandingHeaderSearchFix />
+              <RemoveLandingPromoBanner />
       </body>
     </html>
   );

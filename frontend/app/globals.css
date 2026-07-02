@@ -8294,3 +8294,29 @@ textarea,
 }
 
 /* === MeetSync Click Fix END === */
+
+
+/* === Remove Empty MeetSyncPro Banner START === */
+
+.fdn-alert-banner,
+.fdn-alert-banner--homepage-v2,
+.ms-ai-banner,
+.ms-hero-banner,
+.ms-promo-banner,
+.ms-announcement-banner,
+.meetsyncmate-banner,
+.meetsyncpro-ai-banner,
+[class*="MeetSyncMate"],
+[class*="meetsyncmate"] {
+  display: none !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+  height: 0 !important;
+  min-height: 0 !important;
+  max-height: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  overflow: hidden !important;
+}
+
+/* === Remove Empty MeetSyncPro Banner END === */
