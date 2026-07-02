@@ -1,4 +1,4 @@
-import { RemoveOnlyAiTeammateBanner } from "@/components/RemoveOnlyAiTeammateBanner";
+import { LandingNavBannerPolish } from "@/components/LandingNavBannerPolish";
 ﻿import { RouteWidgetGuard } from "@/components/RouteWidgetGuard";
 import type { Metadata, Viewport } from "next";
 import "./globals.css";
@@ -83,7 +83,7 @@ export default function RootLayout({
         {children}
         <MeetSyncCookiePreferences />
         <MeetSyncVirtualAgent />
-              <RouteWidgetGuard />              <RemoveOnlyAiTeammateBanner />
+              <RouteWidgetGuard />              <LandingNavBannerPolish />
       </body>
     </html>
   );

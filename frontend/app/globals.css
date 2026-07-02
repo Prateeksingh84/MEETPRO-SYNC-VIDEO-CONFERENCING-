@@ -8263,3 +8263,103 @@ textarea,
 }
 
 /* === MeetSync Banner Only Final END === */
+
+
+/* === Landing Nav Banner Polish START === */
+
+.ms-pro-top-banner {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  min-height: 82px !important;
+  padding: 0 28px !important;
+  text-decoration: none !important;
+  pointer-events: auto !important;
+  cursor: default !important;
+}
+
+.ms-pro-top-banner-content {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 22px;
+}
+
+.ms-pro-top-banner-copy {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  text-align: left;
+  color: #ffffff;
+}
+
+.ms-pro-top-banner-copy span {
+  color: #a8c7ff;
+  font-size: 12px;
+  line-height: 1;
+  font-weight: 1000;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.ms-pro-top-banner-copy strong {
+  color: #ffffff;
+  font-size: clamp(16px, 1.35vw, 22px);
+  line-height: 1.28;
+  letter-spacing: -0.03em;
+  font-weight: 1000;
+  max-width: 980px;
+}
+
+.ms-pro-top-banner-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-shrink: 0;
+}
+
+.ms-pro-top-banner-actions a {
+  min-height: 46px;
+  padding: 0 18px;
+  border-radius: 14px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 1000;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.ms-pro-top-banner-actions a:first-child {
+  background: linear-gradient(100deg, #0b5cff, #fb327e);
+  color: #ffffff;
+}
+
+.ms-pro-top-banner-actions a:last-child {
+  background: rgba(255, 255, 255, 0.12);
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.22);
+}
+
+@media (max-width: 900px) {
+  .ms-pro-top-banner {
+    min-height: auto !important;
+    padding: 18px !important;
+  }
+
+  .ms-pro-top-banner-content {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .ms-pro-top-banner-actions {
+    width: 100%;
+  }
+
+  .ms-pro-top-banner-actions a {
+    flex: 1;
+  }
+}
+
+/* === Landing Nav Banner Polish END === */
