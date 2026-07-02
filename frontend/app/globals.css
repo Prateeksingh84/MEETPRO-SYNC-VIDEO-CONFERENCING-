@@ -8245,32 +8245,13 @@ body:has(.dashboard-page) .ms-agent-float {
 /* === MeetSync Meeting Media Fix END === */
 
 
-/* === MeetSync Click Fix START === */
+/* === MeetSync Safe Hero Restore START === */
 
-html,
-body,
-#__next {
-  pointer-events: auto !important;
-}
-
-a,
-button,
-input,
-select,
-textarea,
-[role="button"],
-.ms-dom-signup-fix {
-  pointer-events: auto !important;
-}
-
-.ms-search-modal-backdrop,
-.ms-search-modal {
-  display: none !important;
-  pointer-events: none !important;
-}
-
+/* Header cleanup only */
 .ms-hidden-header-control {
   display: none !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
 }
 
 .ms-dom-signup-fix {
@@ -8293,21 +8274,10 @@ textarea,
   background: #eaf2ff;
 }
 
-/* === MeetSync Click Fix END === */
-
-
-/* === Remove Empty MeetSyncPro Banner START === */
-
-.fdn-alert-banner,
-.fdn-alert-banner--homepage-v2,
-.ms-ai-banner,
-.ms-hero-banner,
-.ms-promo-banner,
-.ms-announcement-banner,
-.meetsyncmate-banner,
-.meetsyncpro-ai-banner,
-[class*="MeetSyncMate"],
-[class*="meetsyncmate"] {
+/* Remove only the small top AI promo strip, not the hero section */
+.fdn-alert-banner.fdn-alert-banner--homepage-v2,
+.hero__content > .fdn-alert-banner,
+.hero__content > .fdn-alert-banner--homepage-v2 {
   display: none !important;
   visibility: hidden !important;
   pointer-events: none !important;
@@ -8319,4 +8289,36 @@ textarea,
   overflow: hidden !important;
 }
 
-/* === Remove Empty MeetSyncPro Banner END === */
+/* Keep landing hero visible */
+.hero,
+.hero__container,
+.hero__content,
+.ms-hero,
+.ms-home-hero,
+.landing-hero,
+.home-hero {
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  pointer-events: auto !important;
+}
+
+/* Keep page clickable */
+a,
+button,
+input,
+select,
+textarea,
+[role="button"] {
+  pointer-events: auto !important;
+}
+
+@media (max-width: 760px) {
+  .ms-dom-signup-fix {
+    min-height: 44px;
+    padding: 0 16px;
+    border-radius: 12px;
+  }
+}
+
+/* === MeetSync Safe Hero Restore END === */
