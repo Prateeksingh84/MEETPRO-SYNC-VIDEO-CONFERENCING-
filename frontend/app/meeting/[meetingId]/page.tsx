@@ -21,6 +21,8 @@ type JoinedParticipantShape = {
   cameraOn?: boolean;
 };
 
+type SidePanel = "participants" | "chat" | "recording";
+
 function RemoteVideo({ stream, name }: { stream: MediaStream; name: string }) {
   const videoRef = useRef<HTMLVideoElement | null>(null);
 
@@ -31,9 +33,9 @@ function RemoteVideo({ stream, name }: { stream: MediaStream; name: string }) {
   }, [stream]);
 
   return (
-    <div className="video-tile">
+    <div className="video-tile meetsync-video-tile">
       <video ref={videoRef} autoPlay playsInline />
-      <span>{name}</span>
+      <div className="tile-name-badge">{name}</div>
     </div>
   );
 }
@@ -66,6 +68,7 @@ function MeetingRoomContent() {
   const [screenSharing, setScreenSharing] = useState(false);
   const [connected, setConnected] = useState(false);
   const [error, setError] = useState("");
+  const [sidePanel, setSidePanel] = useState<SidePanel>("participants");
 
   useEffect(() => {
     let mounted = true;
@@ -143,17 +146,21 @@ function MeetingRoomContent() {
   }, [meetingId, displayName]);
 
   function connectSocket(participantId: string, host: boolean) {
+    const encodedParticipantId = encodeURIComponent(participantId);
+    const encodedName = encodeURIComponent(displayName);
+
     const socketPath = `/ws/meetings/${encodeURIComponent(
       meetingId,
-    )}?participantId=${encodeURIComponent(participantId)}&displayName=${encodeURIComponent(
-      displayName,
-    )}&isHost=${host ? "true" : "false"}`;
+    )}?participantId=${encodedParticipantId}&participant_id=${encodedParticipantId}&displayName=${encodedName}&name=${encodedName}&isHost=${
+      host ? "true" : "false"
+    }&is_host=${host ? "true" : "false"}`;
 
     const ws = new WebSocket(getWsUrl(socketPath));
     socketRef.current = ws;
 
     ws.onopen = () => setConnected(true);
     ws.onclose = () => setConnected(false);
+    ws.onerror = () => setError("Real-time meeting connection failed. Please refresh the room.");
 
     ws.onmessage = async (event) => {
       const data = JSON.parse(event.data);
@@ -171,9 +178,7 @@ function MeetingRoomContent() {
       if (data.type === "participant-joined") {
         setParticipants((old) => {
           const exists = old.some((p) => p.participantId === data.participant.participantId);
-
           if (exists) return old;
-
           return [...old, data.participant];
         });
       }
@@ -215,6 +220,7 @@ function MeetingRoomContent() {
           id: data.id || `${Date.now()}-${Math.random()}`,
           senderName: data.senderName || data.sender_name || displayName,
           message: data.message || "",
+          createdAt: data.createdAt || data.created_at || new Date().toISOString(),
         } as ChatMessage;
 
         setMessages((old) => [...old, normalizedMessage]);
@@ -380,6 +386,7 @@ function MeetingRoomContent() {
     try {
       const displayStream = await navigator.mediaDevices.getDisplayMedia({
         video: true,
+        audio: true,
       });
 
       const screenTrack = displayStream.getVideoTracks()[0];
@@ -437,6 +444,19 @@ function MeetingRoomContent() {
     setChatInput("");
   }
 
+  function sendQuickReaction(reaction: string) {
+    if (socketRef.current?.readyState !== WebSocket.OPEN) return;
+
+    socketRef.current.send(
+      JSON.stringify({
+        type: "chat",
+        message: `${reaction} reaction from ${displayName}`,
+      }),
+    );
+
+    setSidePanel("chat");
+  }
+
   function muteAll() {
     socketRef.current?.send(
       JSON.stringify({
@@ -454,31 +474,68 @@ function MeetingRoomContent() {
     );
   }
 
+  async function copyInvite() {
+    await navigator.clipboard.writeText(window.location.href);
+  }
+
+  async function handleLeave() {
+    if (participantIdRef.current) {
+      await leaveMeeting(meetingId, participantIdRef.current).catch(() => undefined);
+    }
+
+    router.push("/dashboard");
+  }
+
   const remoteEntries = Object.entries(remoteStreams);
+  const totalParticipants = Math.max(participants.length, 1);
 
   return (
-    <main className="meeting-room-page">
-      <header className="meeting-topbar">
-        <div>
-          <strong>{meeting?.title || "Meeting Room"}</strong>
-          <span>{meetingId}</span>
+    <main className="meeting-room-page zoom-room-shell">
+      <header className="meeting-topbar zoom-meeting-topbar">
+        <div className="zoom-meeting-brand">
+          <div className="zoom-brand-dot">M</div>
+          <div>
+            <strong>{meeting?.title || "MeetSync Pro Meeting"}</strong>
+            <span>Meeting ID: {meetingId}</span>
+          </div>
         </div>
 
-        <button className="danger-button" onClick={() => router.push("/")}>
-          Leave
-        </button>
+        <div className="zoom-top-actions">
+          <span className={connected ? "zoom-live-pill" : "zoom-offline-pill"}>
+            {connected ? "Live" : "Connecting"}
+          </span>
+          <button className="zoom-ghost-button" onClick={copyInvite}>
+            Copy invite
+          </button>
+          <button className="zoom-danger-top-button" onClick={handleLeave}>
+            End
+          </button>
+        </div>
       </header>
 
-      {error && <div className="meeting-error">{error}</div>}
+      {error && <div className="meeting-error zoom-error-banner">{error}</div>}
 
-      <section className="meeting-layout">
-        <div className="video-stage">
-          <div className="video-grid">
-            <div className="video-tile local">
+      <section className="meeting-layout zoom-meeting-layout">
+        <div className="video-stage zoom-video-stage">
+          <div className="zoom-stage-header">
+            <div>
+              <p>Professional Meeting Room</p>
+              <h1>{meeting?.title || "Live Video Conference"}</h1>
+            </div>
+
+            <div className="zoom-stage-meta">
+              <span>{totalParticipants} participant(s)</span>
+              <span>{remoteEntries.length ? "Gallery View" : "Waiting Room"}</span>
+            </div>
+          </div>
+
+          <div className="video-grid zoom-video-grid">
+            <div className="video-tile local meetsync-video-tile">
               <video ref={localVideoRef} autoPlay playsInline muted />
-              <span>
+              {!cameraOn && <div className="camera-off-avatar">{displayName.charAt(0).toUpperCase()}</div>}
+              <div className="tile-name-badge">
                 You {isHost ? "(Host)" : ""} {isMuted ? "• Muted" : ""}
-              </span>
+              </div>
             </div>
 
             {remoteEntries.map(([participantId, stream]) => {
@@ -494,81 +551,175 @@ function MeetingRoomContent() {
             })}
 
             {!remoteEntries.length && (
-              <div className="video-tile placeholder">
+              <div className="video-tile placeholder zoom-waiting-tile">
+                <div className="waiting-icon">👥</div>
                 <strong>Waiting for others to join...</strong>
-                <p>Open this meeting link in another tab/window to test real-time WebRTC.</p>
+                <p>Share the meeting link or open this room in another tab/window to test real-time WebRTC.</p>
               </div>
             )}
           </div>
 
-          <div className="meeting-controls">
-            <button onClick={toggleMute}>{isMuted ? "Unmute" : "Mute"}</button>
-            <button onClick={toggleCamera}>{cameraOn ? "Stop Video" : "Start Video"}</button>
-            <button onClick={toggleScreenShare}>
-              {screenSharing ? "Sharing Screen" : "Share Screen"}
+          <div className="meeting-controls zoom-control-bar">
+            <button className={isMuted ? "zoom-control danger-state" : "zoom-control"} onClick={toggleMute}>
+              <span>{isMuted ? "🎙️" : "🎤"}</span>
+              {isMuted ? "Unmute" : "Mute"}
             </button>
-            <button onClick={() => navigator.clipboard.writeText(window.location.href)}>
-              Copy Link
+
+            <button className={!cameraOn ? "zoom-control danger-state" : "zoom-control"} onClick={toggleCamera}>
+              <span>{cameraOn ? "🎥" : "📷"}</span>
+              {cameraOn ? "Stop Video" : "Start Video"}
             </button>
-            {isHost && <button onClick={muteAll}>Mute All</button>}
+
+            <button className="zoom-control share-state" onClick={toggleScreenShare}>
+              <span>🖥️</span>
+              {screenSharing ? "Sharing" : "Share Screen"}
+            </button>
+
+            <button className="zoom-control" onClick={() => setSidePanel("participants")}>
+              <span>👥</span>
+              Participants
+            </button>
+
+            <button className="zoom-control" onClick={() => setSidePanel("chat")}>
+              <span>💬</span>
+              Chat
+            </button>
+
+            <button className="zoom-control" onClick={() => setSidePanel("recording")}>
+              <span>⏺️</span>
+              Record
+            </button>
+
+            <button className="zoom-control" onClick={() => sendQuickReaction("👍")}>
+              <span>👍</span>
+              React
+            </button>
+
+            {isHost && (
+              <button className="zoom-control host-state" onClick={muteAll}>
+                <span>🔇</span>
+                Mute All
+              </button>
+            )}
+
+            <button className="zoom-control leave-state" onClick={handleLeave}>
+              Leave
+            </button>
           </div>
         </div>
 
-        <aside className="meeting-sidebar">
-          <section className="meeting-panel">
-            <div className="section-title">
-              <h2>Participants</h2>
-              <span>{connected ? "Live" : "Connecting"}</span>
-            </div>
+        <aside className="meeting-sidebar zoom-side-panel">
+          <div className="zoom-side-tabs">
+            <button
+              className={sidePanel === "participants" ? "active" : ""}
+              onClick={() => setSidePanel("participants")}
+            >
+              Participants
+            </button>
+            <button
+              className={sidePanel === "chat" ? "active" : ""}
+              onClick={() => setSidePanel("chat")}
+            >
+              Chat
+            </button>
+            <button
+              className={sidePanel === "recording" ? "active" : ""}
+              onClick={() => setSidePanel("recording")}
+            >
+              Recording
+            </button>
+          </div>
 
-            <div className="participant-list">
-              {participants.map((participant) => (
-                <div className="participant-row" key={participant.participantId}>
+          {sidePanel === "participants" && (
+            <section className="meeting-panel zoom-side-card">
+              <div className="section-title zoom-panel-title">
+                <div>
+                  <h2>Participants</h2>
+                  <p>{totalParticipants} joined</p>
+                </div>
+                <span>{connected ? "Live" : "Offline"}</span>
+              </div>
+
+              <div className="participant-list zoom-participant-list">
+                <div className="participant-row zoom-participant-row">
+                  <div className="participant-avatar">{displayName.charAt(0).toUpperCase()}</div>
                   <div>
-                    <strong>{participant.displayName}</strong>
+                    <strong>{displayName} {isHost ? "(Host)" : ""}</strong>
                     <small>
-                      {participant.isHost ? "Host" : "Guest"} •{" "}
-                      {participant.isMuted ? "Muted" : "Audio on"} •{" "}
-                      {participant.cameraOn ? "Camera on" : "Camera off"}
+                      {isMuted ? "Muted" : "Audio on"} • {cameraOn ? "Camera on" : "Camera off"}
                     </small>
                   </div>
-
-                  {isHost && participant.participantId !== participantIdRef.current && (
-                    <button onClick={() => removeParticipant(participant.participantId)}>
-                      Remove
-                    </button>
-                  )}
                 </div>
-              ))}
-            </div>
-          </section>
 
-          <MeetingRecorder meetingId={meetingId} />
+                {participants
+                  .filter((participant) => participant.participantId !== participantIdRef.current)
+                  .map((participant) => (
+                    <div className="participant-row zoom-participant-row" key={participant.participantId}>
+                      <div className="participant-avatar">
+                        {participant.displayName?.charAt(0)?.toUpperCase() || "U"}
+                      </div>
 
-          <section className="meeting-panel chat-panel">
-            <div className="section-title">
-              <h2>Chat</h2>
-              <span>{messages.length}</span>
-            </div>
+                      <div>
+                        <strong>{participant.displayName}</strong>
+                        <small>
+                          {participant.isHost ? "Host" : "Guest"} •{" "}
+                          {participant.isMuted ? "Muted" : "Audio on"} •{" "}
+                          {participant.cameraOn ? "Camera on" : "Camera off"}
+                        </small>
+                      </div>
 
-            <div className="meeting-chat-list">
-              {messages.map((message) => (
-                <div className="meeting-chat-message" key={message.id}>
-                  <strong>{message.senderName}</strong>
-                  <p>{message.message}</p>
+                      {isHost && (
+                        <button onClick={() => removeParticipant(participant.participantId)}>
+                          Remove
+                        </button>
+                      )}
+                    </div>
+                  ))}
+              </div>
+            </section>
+          )}
+
+          {sidePanel === "chat" && (
+            <section className="meeting-panel chat-panel zoom-side-card zoom-chat-card">
+              <div className="section-title zoom-panel-title">
+                <div>
+                  <h2>Meeting Chat</h2>
+                  <p>Live messages</p>
                 </div>
-              ))}
-            </div>
+                <span>{messages.length}</span>
+              </div>
 
-            <form className="meeting-chat-form" onSubmit={sendChat}>
-              <input
-                value={chatInput}
-                onChange={(event) => setChatInput(event.target.value)}
-                placeholder="Type message..."
-              />
-              <button>Send</button>
-            </form>
-          </section>
+              <div className="meeting-chat-list zoom-chat-list">
+                {messages.map((message) => (
+                  <div className="meeting-chat-message zoom-chat-message" key={message.id}>
+                    <strong>{message.senderName}</strong>
+                    <p>{message.message}</p>
+                  </div>
+                ))}
+
+                {!messages.length && (
+                  <div className="empty-state zoom-empty-state">
+                    No messages yet. Start the conversation.
+                  </div>
+                )}
+              </div>
+
+              <form className="meeting-chat-form zoom-chat-form" onSubmit={sendChat}>
+                <input
+                  value={chatInput}
+                  onChange={(event) => setChatInput(event.target.value)}
+                  placeholder="Message everyone..."
+                />
+                <button>Send</button>
+              </form>
+            </section>
+          )}
+
+          {sidePanel === "recording" && (
+            <section className="zoom-recording-wrapper">
+              <MeetingRecorder meetingId={meetingId} />
+            </section>
+          )}
         </aside>
       </section>
     </main>
@@ -588,6 +739,3 @@ export default function MeetingPage() {
     </Suspense>
   );
 }
-
-
-
