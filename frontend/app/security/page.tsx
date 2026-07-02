@@ -1,53 +1,45 @@
-﻿import Link from "next/link";
-
-const securityControls = [
-  "Environment-based backend and frontend configuration",
-  "CORS-restricted production frontend origin",
-  "Secure browser headers",
-  "Redis-ready rate limiting",
-  "No hardcoded production secrets",
-  "Separated frontend and backend deployments",
-  "Backend health endpoint for production monitoring",
-  "Privacy and cookie preference center",
-];
+﻿import { StaticMarketingPage } from "@/components/StaticMarketingPage";
 
 export default function SecurityPage() {
   return (
-    <main className="enterprise-page">
-      <nav className="enterprise-nav">
-        <Link href="/" className="enterprise-logo">
-          meetsync
-        </Link>
-
-        <div>
-          <Link href="/enterprise">Enterprise</Link>
-          <Link href="/privacy">Privacy</Link>
-          <Link href="/auth" className="enterprise-nav-cta">
-            Get started
-          </Link>
-        </div>
-      </nav>
-
-      <section className="enterprise-hero">
-        <p>Security Center</p>
-        <h1>Secure foundation for real-time video collaboration.</h1>
-        <span>
-          MeetSync Pro uses production-ready security practices such as origin control,
-          environment secrets, secure headers, and rate-limit readiness.
-        </span>
-      </section>
-
-      <section className="enterprise-grid">
-        {securityControls.map((item) => (
-          <article key={item}>
-            <h2>{item}</h2>
-            <p>
-              This control helps protect users, meeting data, backend APIs, and production
-              collaboration workflows.
-            </p>
-          </article>
-        ))}
-      </section>
-    </main>
+    <StaticMarketingPage
+      eyebrow="Security Center"
+      title="Secure foundation for real-time video collaboration."
+      description="MeetSync Pro uses production security practices for frontend, backend, APIs, WebSockets, user preferences, recordings, and AI-ready workflows."
+      primaryHref="/privacy"
+      primaryLabel="View privacy"
+      items={[
+        {
+          title: "Secure Headers",
+          description:
+            "Security headers reduce browser attack surface and protect users from common frontend risks.",
+        },
+        {
+          title: "CORS Origin Control",
+          description:
+            "Backend requests should only be accepted from approved frontend production domains.",
+        },
+        {
+          title: "Environment Secrets",
+          description:
+            "API keys, OAuth credentials, tokens, backend URLs, and integration secrets are kept in environment variables.",
+        },
+        {
+          title: "Rate Limit Ready",
+          description:
+            "Redis can be used for API rate limiting, abuse prevention, session coordination, and live traffic control.",
+        },
+        {
+          title: "Privacy Consent",
+          description:
+            "Cookie preferences and AI meeting features should run with clear user consent and transparent retention policies.",
+        },
+        {
+          title: "Production Monitoring",
+          description:
+            "Health checks, logs, error tracking, uptime monitoring, and audit events should be added for production operations.",
+        },
+      ]}
+    />
   );
 }

@@ -1,52 +1,35 @@
-﻿import Link from "next/link";
+﻿import { StaticMarketingPage } from "@/components/StaticMarketingPage";
 
 export default function PrivacyPage() {
   return (
-    <main className="enterprise-page">
-      <nav className="enterprise-nav">
-        <Link href="/" className="enterprise-logo">
-          meetsync
-        </Link>
-
-        <div>
-          <Link href="/enterprise">Enterprise</Link>
-          <Link href="/security">Security</Link>
-          <Link href="/auth" className="enterprise-nav-cta">
-            Get started
-          </Link>
-        </div>
-      </nav>
-
-      <section className="enterprise-hero">
-        <p>Privacy Center</p>
-        <h1>Privacy-first meetings, recordings, chat, and AI workflows.</h1>
-        <span>
-          MeetSync Pro is designed to minimize data exposure, avoid hardcoded secrets, give users
-          control over cookie preferences, and prepare AI features for consent-based processing.
-        </span>
-      </section>
-
-      <section className="enterprise-grid">
-        <article>
-          <h2>Cookie Control</h2>
-          <p>Users can manage performance, functional, and targeting preferences from the cookie panel.</p>
-        </article>
-
-        <article>
-          <h2>Meeting Data</h2>
-          <p>Meeting metadata, chat, recordings, and participant activity should be protected with clear retention rules.</p>
-        </article>
-
-        <article>
-          <h2>AI Consent</h2>
-          <p>AI summaries and transcripts should only run after clear user consent and meeting policy approval.</p>
-        </article>
-
-        <article>
-          <h2>Secure Configuration</h2>
-          <p>Secrets, backend URLs, OAuth keys, and integrations should always come from environment variables.</p>
-        </article>
-      </section>
-    </main>
+    <StaticMarketingPage
+      eyebrow="Privacy Center"
+      title="Privacy-first meetings, recordings, chat, and AI workflows."
+      description="MeetSync Pro is designed to minimize data exposure, avoid hardcoded secrets, provide cookie choices, and prepare AI features for consent-based processing."
+      primaryHref="/security"
+      primaryLabel="View security"
+      items={[
+        {
+          title: "Cookie Preferences",
+          description:
+            "Users can manage strictly necessary, performance, functional, and targeting preferences from the cookie settings panel.",
+        },
+        {
+          title: "Meeting Data",
+          description:
+            "Meeting metadata, chat, recordings, and participant activity should be protected with clear access and retention rules.",
+        },
+        {
+          title: "AI Consent",
+          description:
+            "AI summaries, transcripts, and generated notes should run only after clear user consent and meeting policy approval.",
+        },
+        {
+          title: "Data Minimization",
+          description:
+            "Only collect what is required for collaboration, safety, support, reliability, and product functionality.",
+        },
+      ]}
+    />
   );
 }
