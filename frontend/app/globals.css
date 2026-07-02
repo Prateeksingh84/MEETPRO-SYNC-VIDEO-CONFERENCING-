@@ -3084,3 +3084,660 @@ html[data-theme="dark"] .inline-photo-editor h4 {
 }
 
 /* === MeetSync Pro Zoom-Style Meeting Redesign END === */
+
+
+/* === MeetSync Native Zoom Call UI START === */
+
+.zoom-native-shell {
+  height: 100vh;
+  min-height: 100vh;
+  overflow: hidden;
+  background: #050505;
+  color: #ffffff;
+  display: grid;
+  grid-template-rows: 54px minmax(0, 1fr) 64px;
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+.zoom-native-topbar {
+  height: 54px;
+  background: #050505;
+  border-bottom: 1px solid #1f1f1f;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 18px 0 28px;
+  z-index: 30;
+}
+
+.zoom-native-workplace {
+  display: grid;
+  gap: 0;
+  line-height: 1;
+}
+
+.zoom-native-workplace span {
+  font-size: 12px;
+  color: #ffffff;
+  opacity: 0.9;
+  letter-spacing: -0.02em;
+}
+
+.zoom-native-workplace strong {
+  margin-top: 2px;
+  font-size: 17px;
+  color: #ffffff;
+  font-weight: 850;
+  letter-spacing: -0.03em;
+}
+
+.zoom-native-top-right {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.zoom-native-security,
+.zoom-native-view-button,
+.zoom-native-profile {
+  height: 34px;
+  border: 0;
+  color: #ffffff;
+  background: transparent;
+  cursor: pointer;
+  font-weight: 850;
+}
+
+.zoom-native-security {
+  color: #22c55e;
+  font-size: 18px;
+}
+
+.zoom-native-view-button {
+  min-width: 82px;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.06);
+  padding: 0 12px;
+}
+
+.zoom-native-profile {
+  width: 32px;
+  border-radius: 50%;
+  background: #2b2b2b;
+  display: grid;
+  place-items: center;
+}
+
+.zoom-native-room {
+  min-height: 0;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  background: #111111;
+  position: relative;
+}
+
+.zoom-native-room.has-panel {
+  grid-template-columns: minmax(0, 1fr) 392px;
+}
+
+.zoom-native-stage {
+  min-width: 0;
+  min-height: 0;
+  position: relative;
+  background: #171717;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+}
+
+.zoom-native-main-grid {
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  display: grid;
+  place-items: center;
+  position: relative;
+}
+
+.zoom-native-stage.gallery .zoom-native-main-grid {
+  padding: 18px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  grid-auto-rows: minmax(220px, 1fr);
+  gap: 14px;
+  overflow: auto;
+}
+
+.zoom-native-video-tile {
+  width: 100%;
+  height: 100%;
+  min-height: 220px;
+  position: relative;
+  background: #1a1a1a;
+  overflow: hidden;
+}
+
+.zoom-native-stage:not(.gallery) .zoom-native-video-tile {
+  width: min(100%, 1500px);
+  height: 100%;
+  border-left: 1px solid #222222;
+  border-right: 1px solid #222222;
+}
+
+.zoom-native-video-tile video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  background: #1a1a1a;
+}
+
+.zoom-native-avatar-tile {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  background: #1a1a1a;
+}
+
+.zoom-native-avatar-tile div {
+  width: 110px;
+  height: 110px;
+  border-radius: 0;
+  display: grid;
+  place-items: center;
+  background: #c2185b;
+  color: #ffffff;
+  font-size: 56px;
+  font-weight: 500;
+}
+
+.zoom-native-waiting-card {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  text-align: center;
+  padding: 28px;
+  background: #1a1a1a;
+}
+
+.zoom-native-waiting-card .zoom-native-waiting-avatar {
+  width: 110px;
+  height: 110px;
+  margin: 0 auto 30px;
+  display: grid;
+  place-items: center;
+  background: #c2185b;
+  font-size: 48px;
+}
+
+.zoom-native-waiting-card strong {
+  display: block;
+  color: #ffffff;
+  font-size: 22px;
+  font-weight: 750;
+  margin-bottom: 280px;
+}
+
+.zoom-native-waiting-card p {
+  position: absolute;
+  bottom: 95px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: min(620px, calc(100% - 40px));
+  margin: 0;
+  color: #bdbdbd;
+  font-size: 18px;
+  line-height: 1.45;
+}
+
+.zoom-native-local-name {
+  position: absolute;
+  left: 78px;
+  bottom: 18px;
+  z-index: 12;
+  min-height: 28px;
+  padding: 5px 9px;
+  border-radius: 4px;
+  background: rgba(0, 0, 0, 0.72);
+  color: #ffffff;
+  font-size: 13px;
+  font-weight: 750;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.zoom-native-name-badge {
+  position: absolute;
+  left: 18px;
+  bottom: 18px;
+  z-index: 10;
+  min-height: 28px;
+  padding: 5px 9px;
+  border-radius: 4px;
+  background: rgba(0, 0, 0, 0.72);
+  color: #ffffff;
+  font-size: 13px;
+  font-weight: 750;
+}
+
+.zoom-native-toolbar {
+  height: 64px;
+  background: #050505;
+  border-top: 1px solid #242424;
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: minmax(72px, auto);
+  justify-content: center;
+  align-items: stretch;
+  gap: 4px;
+  padding: 0 10px;
+  z-index: 40;
+}
+
+.zoom-native-toolbar button {
+  position: relative;
+  min-width: 72px;
+  border: 0;
+  background: transparent;
+  color: #ffffff;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 650;
+  display: grid;
+  place-items: center;
+  align-content: center;
+  gap: 2px;
+}
+
+.zoom-native-toolbar button span {
+  font-size: 21px;
+  line-height: 1;
+}
+
+.zoom-native-toolbar button:hover,
+.zoom-native-toolbar button.active {
+  background: #202020;
+}
+
+.zoom-native-toolbar button.share span {
+  width: 28px;
+  height: 22px;
+  border-radius: 5px;
+  background: #19d36b;
+  color: #000000;
+  display: grid;
+  place-items: center;
+  font-weight: 1000;
+}
+
+.zoom-native-toolbar button.danger span {
+  color: #ff4f4f;
+}
+
+.zoom-native-toolbar button.end {
+  color: #ff4f70;
+  margin-left: 12px;
+}
+
+.zoom-native-toolbar button.end span {
+  width: 28px;
+  height: 22px;
+  border-radius: 5px;
+  border: 2px solid #ff4f70;
+  display: grid;
+  place-items: center;
+  font-size: 15px;
+}
+
+.zoom-native-toolbar button em {
+  position: absolute;
+  top: 8px;
+  right: 18px;
+  min-width: 17px;
+  height: 17px;
+  border-radius: 999px;
+  background: #2a2a2a;
+  color: #ffffff;
+  font-size: 10px;
+  font-style: normal;
+  display: grid;
+  place-items: center;
+}
+
+.zoom-native-drawer {
+  min-width: 0;
+  min-height: 0;
+  height: 100%;
+  background: #ffffff;
+  color: #111827;
+  border-left: 1px solid #2f2f2f;
+  display: grid;
+  grid-template-rows: 58px minmax(0, 1fr);
+  z-index: 20;
+}
+
+.zoom-native-drawer-header {
+  min-height: 58px;
+  border-bottom: 1px solid #e5e7eb;
+  padding: 0 18px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.zoom-native-drawer-header strong {
+  color: #111827;
+  font-size: 18px;
+  font-weight: 800;
+}
+
+.zoom-native-drawer-header button {
+  width: 34px;
+  height: 34px;
+  border: 0;
+  border-radius: 50%;
+  background: #f3f4f6;
+  color: #111827;
+  cursor: pointer;
+  font-size: 24px;
+}
+
+.zoom-native-panel-body,
+.zoom-native-chat-panel,
+.zoom-native-recording-panel {
+  min-height: 0;
+  overflow: auto;
+  padding: 16px;
+}
+
+.zoom-native-panel-meta {
+  min-height: 36px;
+  margin-bottom: 14px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: #6b7280;
+  font-size: 13px;
+  font-weight: 750;
+}
+
+.zoom-native-participant {
+  min-height: 58px;
+  padding: 10px;
+  border-radius: 10px;
+  display: grid;
+  grid-template-columns: 38px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 10px;
+}
+
+.zoom-native-participant:hover {
+  background: #f3f4f6;
+}
+
+.zoom-native-participant-avatar {
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
+  background: #6254f3;
+  color: #ffffff;
+  display: grid;
+  place-items: center;
+  font-weight: 900;
+}
+
+.zoom-native-participant strong {
+  display: block;
+  color: #111827;
+  font-size: 14px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.zoom-native-participant small {
+  display: block;
+  margin-top: 2px;
+  color: #6b7280;
+  font-size: 12px;
+}
+
+.zoom-native-participant button {
+  border: 0;
+  border-radius: 8px;
+  background: #fee2e2;
+  color: #b91c1c;
+  min-height: 30px;
+  padding: 0 10px;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.zoom-native-chat-panel {
+  display: grid;
+  grid-template-rows: minmax(0, 1fr) auto;
+  gap: 12px;
+}
+
+.zoom-native-chat-list {
+  min-height: 0;
+  overflow: auto;
+  display: grid;
+  align-content: start;
+  gap: 10px;
+}
+
+.zoom-native-chat-message {
+  padding: 10px 12px;
+  border-radius: 12px;
+  background: #f3f4f6;
+}
+
+.zoom-native-chat-message strong {
+  color: #2563eb;
+  font-size: 13px;
+}
+
+.zoom-native-chat-message p {
+  margin: 5px 0 0;
+  color: #111827;
+  font-size: 14px;
+  line-height: 1.45;
+  word-break: break-word;
+}
+
+.zoom-native-empty {
+  padding: 14px;
+  border-radius: 12px;
+  background: #f9fafb;
+  color: #6b7280;
+  border: 1px dashed #d1d5db;
+}
+
+.zoom-native-chat-form {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 8px;
+}
+
+.zoom-native-chat-form input {
+  height: 42px;
+  border: 1px solid #d1d5db;
+  border-radius: 999px;
+  padding: 0 14px;
+  outline: none;
+}
+
+.zoom-native-chat-form input:focus {
+  border-color: #2563eb;
+}
+
+.zoom-native-chat-form button {
+  height: 42px;
+  border: 0;
+  border-radius: 999px;
+  background: #2563eb;
+  color: #ffffff;
+  padding: 0 16px;
+  font-weight: 850;
+  cursor: pointer;
+}
+
+.zoom-native-recording-panel .recording-card {
+  background: #ffffff !important;
+  border: 0 !important;
+  color: #111827 !important;
+  padding: 0 !important;
+}
+
+.zoom-native-recording-panel .recording-header h3,
+.zoom-native-recording-panel .compact-section-title h3 {
+  color: #111827 !important;
+}
+
+.zoom-native-recording-panel .recording-help,
+.zoom-native-recording-panel .recording-item p {
+  color: #6b7280 !important;
+}
+
+.zoom-native-recording-panel .recording-item {
+  background: #f9fafb !important;
+  border-color: #e5e7eb !important;
+}
+
+.zoom-native-recording-panel .recording-item strong {
+  color: #111827 !important;
+}
+
+.zoom-native-host-action,
+.zoom-native-more-link {
+  width: 100%;
+  min-height: 48px;
+  border: 0;
+  border-radius: 12px;
+  background: #f3f4f6;
+  color: #111827;
+  padding: 0 14px;
+  margin-bottom: 10px;
+  text-decoration: none;
+  font-weight: 850;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.zoom-native-host-action:hover,
+.zoom-native-more-link:hover {
+  background: #e5e7eb;
+}
+
+.zoom-native-info-box {
+  margin-top: 12px;
+  padding: 14px;
+  border-radius: 12px;
+  background: #eff6ff;
+  color: #1e3a8a;
+  line-height: 1.55;
+  font-size: 13px;
+}
+
+.zoom-native-ai-card {
+  border-radius: 18px;
+  padding: 20px;
+  background: linear-gradient(135deg, #eff6ff, #f8fafc);
+  border: 1px solid #dbeafe;
+}
+
+.zoom-native-ai-card span {
+  font-size: 34px;
+}
+
+.zoom-native-ai-card h3 {
+  margin: 12px 0 8px;
+  color: #111827;
+  font-size: 22px;
+}
+
+.zoom-native-ai-card p {
+  margin: 0;
+  color: #4b5563;
+  line-height: 1.6;
+}
+
+.zoom-native-toast,
+.zoom-native-copy-toast {
+  position: fixed;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 100;
+  min-height: 38px;
+  display: flex;
+  align-items: center;
+  border-radius: 8px;
+  padding: 0 14px;
+  font-size: 14px;
+  font-weight: 850;
+}
+
+.zoom-native-toast {
+  top: 68px;
+  max-width: min(720px, calc(100vw - 30px));
+  background: rgba(127, 29, 29, 0.95);
+  color: #fecaca;
+  border: 1px solid rgba(248, 113, 113, 0.4);
+}
+
+.zoom-native-copy-toast {
+  top: 68px;
+  background: rgba(20, 83, 45, 0.95);
+  color: #bbf7d0;
+  border: 1px solid rgba(34, 197, 94, 0.4);
+}
+
+@media (max-width: 1180px) {
+  .zoom-native-room.has-panel {
+    grid-template-columns: 1fr;
+  }
+
+  .zoom-native-drawer {
+    position: fixed;
+    right: 0;
+    top: 54px;
+    bottom: 64px;
+    width: min(392px, 100vw);
+  }
+}
+
+@media (max-width: 760px) {
+  .zoom-native-shell {
+    grid-template-rows: 54px minmax(0, 1fr) 88px;
+  }
+
+  .zoom-native-toolbar {
+    height: 88px;
+    overflow-x: auto;
+    justify-content: flex-start;
+  }
+
+  .zoom-native-toolbar button {
+    min-width: 76px;
+  }
+
+  .zoom-native-waiting-card strong {
+    margin-bottom: 160px;
+  }
+
+  .zoom-native-waiting-card p {
+    bottom: 70px;
+    font-size: 14px;
+  }
+
+  .zoom-native-local-name {
+    left: 14px;
+  }
+}
+
+/* === MeetSync Native Zoom Call UI END === */
