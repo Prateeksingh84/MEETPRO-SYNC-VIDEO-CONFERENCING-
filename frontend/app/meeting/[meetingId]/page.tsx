@@ -146,9 +146,21 @@ function MeetingRoomContent() {
 
       localStreamRef.current = stream;
       setMediaPermissionDenied(false);
+      setCameraOn(true);
+      setIsMuted(false);
+      setError("");
+
+      stream.getVideoTracks().forEach((track) => {
+        track.enabled = true;
+      });
+
+      stream.getAudioTracks().forEach((track) => {
+        track.enabled = true;
+      });
 
       if (localVideoRef.current) {
         localVideoRef.current.srcObject = stream;
+        localVideoRef.current.play().catch(() => undefined);
       }
     } catch {
       setMediaPermissionDenied(true);
@@ -850,3 +862,4 @@ export default function MeetingPage() {
     </Suspense>
   );
 }
+

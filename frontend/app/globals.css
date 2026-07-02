@@ -3741,3 +3741,119 @@ html[data-theme="dark"] .inline-photo-editor h4 {
 }
 
 /* === MeetSync Native Zoom Call UI END === */
+
+
+/* === MeetSync Video Visibility Fix START === */
+
+.zoom-native-stage {
+  background: #171717 !important;
+}
+
+.zoom-native-main-grid {
+  position: relative !important;
+  display: block !important;
+  width: 100% !important;
+  height: 100% !important;
+}
+
+.zoom-native-stage:not(.gallery) .zoom-native-video-tile.zoom-native-local-tile {
+  position: absolute !important;
+  inset: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  min-height: 100% !important;
+  max-width: none !important;
+  border: 0 !important;
+  z-index: 1 !important;
+  background: #171717 !important;
+}
+
+.zoom-native-stage.gallery .zoom-native-main-grid {
+  display: grid !important;
+}
+
+.zoom-native-video-tile video {
+  position: absolute !important;
+  inset: 0 !important;
+  display: block !important;
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+  background: #171717 !important;
+  z-index: 1 !important;
+}
+
+.zoom-native-avatar-tile {
+  z-index: 2 !important;
+}
+
+.zoom-native-name-badge,
+.zoom-native-local-name {
+  z-index: 20 !important;
+}
+
+.zoom-native-waiting-card {
+  position: absolute !important;
+  left: 50% !important;
+  bottom: 92px !important;
+  top: auto !important;
+  right: auto !important;
+  width: min(640px, calc(100% - 48px)) !important;
+  height: auto !important;
+  min-height: 0 !important;
+  transform: translateX(-50%) !important;
+  z-index: 8 !important;
+  padding: 16px 20px !important;
+  border-radius: 14px !important;
+  background: rgba(0, 0, 0, 0.58) !important;
+  border: 1px solid rgba(255, 255, 255, 0.10) !important;
+  backdrop-filter: blur(12px) !important;
+  pointer-events: none !important;
+  display: grid !important;
+  place-items: center !important;
+  text-align: center !important;
+}
+
+.zoom-native-waiting-card .zoom-native-waiting-avatar {
+  display: none !important;
+}
+
+.zoom-native-waiting-card strong {
+  margin: 0 0 6px !important;
+  color: #ffffff !important;
+  font-size: 18px !important;
+  font-weight: 850 !important;
+}
+
+.zoom-native-waiting-card p {
+  position: static !important;
+  left: auto !important;
+  bottom: auto !important;
+  transform: none !important;
+  width: auto !important;
+  margin: 0 !important;
+  color: #d1d5db !important;
+  font-size: 14px !important;
+  line-height: 1.45 !important;
+}
+
+.zoom-native-toast {
+  z-index: 200 !important;
+}
+
+@media (max-width: 760px) {
+  .zoom-native-waiting-card {
+    bottom: 112px !important;
+    width: calc(100% - 28px) !important;
+  }
+
+  .zoom-native-waiting-card strong {
+    font-size: 15px !important;
+  }
+
+  .zoom-native-waiting-card p {
+    font-size: 12px !important;
+  }
+}
+
+/* === MeetSync Video Visibility Fix END === */
