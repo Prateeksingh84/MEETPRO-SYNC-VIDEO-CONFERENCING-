@@ -34,7 +34,7 @@ const productModules = [
       "Browser-based meeting recording with saved files, download support, and backend upload workflow.",
   },
   {
-    title: "MeetSyncMate",
+    title: "MeetSyncPro",
     badge: "AI teammate",
     icon: "✦",
     href: "/enterprise",
@@ -136,3 +136,4 @@ export default function ProductsPage() {
     </main>
   );
 }
+

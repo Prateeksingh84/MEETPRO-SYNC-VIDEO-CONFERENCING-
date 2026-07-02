@@ -1,0 +1,429 @@
+﻿import Link from "next/link";
+
+const productCards = [
+  {
+    title: "MeetSyncPro",
+    subtitle: "Your AI teammate",
+    icon: "✦",
+    description: "Ask, summarize, plan, and turn conversations into next actions.",
+    className: "card-mate",
+  },
+  {
+    title: "AI Productivity Suite",
+    subtitle: "Docs, slides, notes",
+    icon: "▦",
+    description: "Create structured notes, plans, reports, and follow-ups from one workspace.",
+    className: "card-suite",
+  },
+  {
+    title: "Meetings",
+    subtitle: "Video collaboration",
+    icon: "🎥",
+    description: "HD video meetings with chat, screen share, recording, host tools, and reactions.",
+    className: "card-meetings",
+  },
+  {
+    title: "Webinars",
+    subtitle: "Events and sessions",
+    icon: "▣",
+    description: "Run online sessions, workshops, demos, interviews, and community events.",
+    className: "card-webinars",
+  },
+  {
+    title: "Workspace",
+    subtitle: "Team operations",
+    icon: "☷",
+    description: "Team chat, whiteboards, meeting rooms, recordings, and shared workflows.",
+    className: "card-workspace",
+  },
+];
+
+const platformTabs = ["Collaboration", "Customer support", "Marketing", "Sales", "Employee engagement"];
+
+const platformPoints = [
+  "Support hybrid and remote work: keep global teams engaged with reliable video, chat, whiteboards, and recordings.",
+  "Seamless communication: save time with meetings, team chat, sharing, and collaboration in one platform.",
+  "Keep workflows moving: convert discussions into notes, action items, documents, and follow-up tasks.",
+  "Do more with AI: generate meeting summaries, next steps, smart recordings, and team-ready deliverables.",
+];
+
+const logos = ["AILYTICS", "Hestabit", "SRM", "NITI Aayog", "Startups", "Developers", "Remote Teams", "Enterprises"];
+
+const news = [
+  {
+    title: "Meet My Notes: your new AI note taker",
+    description: "Capture insights from meetings and convert conversations into summaries and next actions.",
+    className: "large news-notes",
+  },
+  {
+    title: "MeetSync adds professional call UI",
+    description: "A cleaner meeting room with host tools, chat, recording, reactions, and screen sharing.",
+    className: "large news-call",
+  },
+  {
+    title: "AI-ready collaboration",
+    description: "Prepared for meeting summaries, action items, and smart recordings.",
+    className: "small news-ai",
+  },
+  {
+    title: "Privacy-first workspace",
+    description: "Security headers, CORS control, environment secrets, and Redis-ready scaling.",
+    className: "small news-secure",
+  },
+];
+
+export default function HomePage() {
+  return (
+    <main className="zoom-final-page">
+      <nav className="zoom-final-nav">
+        <Link href="/" className="zoom-final-logo" aria-label="MeetSync Pro home">
+          meetsync
+        </Link>
+
+        <div className="zoom-final-nav-left">
+          <Link href="/dashboard">Products⌄</Link>
+          <Link href="/enterprise"><span>✦</span> AI⌄</Link>
+          <Link href="/security">Solutions⌄</Link>
+          <Link href="/settings">Pricing</Link>
+        </div>
+
+        <div className="zoom-final-nav-right">
+          <button aria-label="Search">⌕</button>
+          <Link href="/join">Meet⌄</Link>
+          <Link href="/security">Support</Link>
+          <Link href="/enterprise" className="nav-sales">Contact Sales</Link>
+          <Link href="/auth" className="nav-new">What&apos;s New</Link>
+          <Link href="/profile" className="nav-avatar">MS</Link>
+          <button aria-label="Apps">⋮⋮</button>
+        </div>
+      </nav>
+
+      <section className="zoom-final-hero">
+        <div className="zoom-final-announcement">
+          <span></span>
+          <Link href="/enterprise"></Link>
+          <button aria-label="Close">×</button>
+        </div>
+
+        <div className="zoom-final-hero-copy">
+          <h1>Find out what&apos;s possible when work connects</h1>
+          <p>Bridge the gap between talking and doing with the AI-first work platform built for you.</p>
+
+          <div className="zoom-final-hero-actions">
+            <Link href="/dashboard">Explore products</Link>
+            <Link href="/auth">Find your plan</Link>
+          </div>
+        </div>
+
+        <div className="zoom-final-product-carousel">
+          {productCards.map((card) => (
+            <article className={`zoom-final-product-card ${card.className}`} key={card.title}>
+              <div className="product-card-header">
+                <span>{card.icon}</span>
+                <h3>{card.title}</h3>
+              </div>
+
+              <div className="product-card-content">
+                <small>{card.subtitle}</small>
+                <p>{card.description}</p>
+              </div>
+
+              <div className="product-card-visual">
+                <div />
+                <div />
+                <div />
+              </div>
+
+              <Link href="/dashboard" aria-label={`Open ${card.title}`}>↗</Link>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      <section className="zoom-final-notes">
+        <div className="zoom-final-slider-dots">
+          <span />
+          <span />
+          <span />
+          <span />
+          <span className="active" />
+          <span />
+          <span />
+          <span />
+        </div>
+
+        <div className="notes-heading-row">
+          <div>
+            <div className="notes-icon">✦</div>
+            <h2><span>My Notes</span>Your new AI note taker</h2>
+          </div>
+
+          <Link href="/enterprise">Explore My Notes</Link>
+        </div>
+
+        <div className="notes-showcase">
+          <div className="notes-window">
+            <div className="notes-window-top">
+              <span />
+              <span />
+              <span />
+              <strong>Q3 Marketing Kickoff</strong>
+            </div>
+
+            <div className="notes-window-body">
+              <div className="notes-video active">
+                <div className="person">P</div>
+                <small>Presenter</small>
+              </div>
+
+              <div className="notes-video">
+                <div className="person second">T</div>
+                <small>Team member</small>
+              </div>
+
+              <aside className="notes-ai-panel">
+                <h3>My Notes</h3>
+                <p>Take notes or use meeting transcript to create a personal summary for you.</p>
+
+                <label><span /> Use meeting transcript</label>
+                <label><span /> Auto-start note taking</label>
+                <label><span /> Extract action items</label>
+
+                <button>Start taking notes</button>
+              </aside>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="zoom-final-report-grid">
+        <article className="report-card report-blue">
+          <div className="report-mark">Leader</div>
+          <h3>A modern collaboration platform for meetings, chat, AI, and realtime workflows</h3>
+          <Link href="/enterprise">Read the report</Link>
+        </article>
+
+        <article className="report-card report-photo">
+          <div className="photo-person">🎧</div>
+          <h3>MeetSync recognized for professional realtime collaboration experience</h3>
+          <Link href="/security">Explore the report</Link>
+        </article>
+
+        <article className="report-card report-radar">
+          <div className="radar-circle">
+            <span />
+            <span />
+            <span />
+            <strong>MS</strong>
+          </div>
+          <h3>Built with a scalable roadmap for secure video communication</h3>
+          <Link href="/enterprise">Read the report</Link>
+        </article>
+      </section>
+
+      <section className="zoom-final-platform">
+        <h2>One platform.<br />Endless ways to work together.</h2>
+
+        <div className="platform-tabs">
+          {platformTabs.map((tab, index) => (
+            <button className={index === 0 ? "active" : ""} key={tab}>{tab}</button>
+          ))}
+        </div>
+
+        <div className="platform-content">
+          <div className="platform-copy">
+            <ul>
+              {platformPoints.map((item) => (
+                <li key={item}>{item}</li>
+              ))}
+            </ul>
+
+            <Link href="/dashboard">Explore products</Link>
+          </div>
+
+          <div className="platform-ai-card">
+            <div className="ai-browser">
+              <span>✦</span>
+              <h3>MeetSyncPro is ready to help.</h3>
+              <div className="ai-search">Anything to complete?</div>
+
+              <div className="ai-actions">
+                <small>Drive meeting</small>
+                <small>Build slides</small>
+                <small>Draft document</small>
+                <small>Create image</small>
+              </div>
+
+              <div className="ai-agenda">
+                <b>Agenda</b>
+                <p>Prioritize sprint tasks, meetings, and follow-ups today.</p>
+                <button>Join</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="zoom-final-trust">
+        <h2>Trusted by builders. Built for teams.</h2>
+
+        <div className="logo-marquee">
+          <div>
+            {[...logos, ...logos].map((logo, index) => (
+              <span key={`${logo}-${index}`}>{logo}</span>
+            ))}
+          </div>
+        </div>
+
+        <div className="rating-row">
+          <article>
+            <strong>4.8/5</strong>
+            <div>★ ★ ★ ★ <span>★</span></div>
+            <p>Product experience</p>
+            <small>Realtime meetings</small>
+          </article>
+
+          <article>
+            <strong>99.9%</strong>
+            <div>★ ★ ★ ★ <span>★</span></div>
+            <p>Reliability goal</p>
+            <small>Scale roadmap</small>
+          </article>
+
+          <article>
+            <strong>24/7</strong>
+            <div>★ ★ ★ ★ <span>★</span></div>
+            <p>Global-ready</p>
+            <small>Team workspace</small>
+          </article>
+        </div>
+      </section>
+
+      <section className="zoom-final-stories">
+        <p>Customer stories</p>
+        <h2>Businesses achieve more with MeetSync Pro</h2>
+
+        <div className="story-carousel">
+          <div className="story-side">Video SDK</div>
+
+          <article className="story-main">
+            <div>
+              <h3>Advancing collaboration through a custom realtime meeting platform</h3>
+              <blockquote>
+                “MeetSync Pro brings meetings, chat, recording, whiteboard, and AI-ready workflows into a single professional experience.”
+              </blockquote>
+              <small>— MeetSync product story</small>
+            </div>
+
+            <Link href="/enterprise">↗</Link>
+          </article>
+
+          <div className="story-side">Analytics</div>
+          <div className="story-side">Remote</div>
+        </div>
+      </section>
+
+      <section className="zoom-final-news">
+        <p>What&apos;s new</p>
+        <h2>Making news, making impact</h2>
+
+        <div className="news-grid">
+          {news.map((item) => (
+            <article className={item.className} key={item.title}>
+              <h3>{item.title}</h3>
+              <p>{item.description}</p>
+              <Link href="/enterprise">↗</Link>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      <section className="zoom-final-cta">
+        <h2>See what MeetSync Pro can do for your business</h2>
+        <div>
+          <Link href="/auth">Get started today</Link>
+          <Link href="/enterprise">Find your plan</Link>
+        </div>
+      </section>
+
+      <footer className="zoom-final-footer">
+        <div className="footer-brand">
+          <strong>meetsync</strong>
+
+          <div className="download-center">
+            <span>⇩</span>
+            <div>
+              <b>Download Center</b>
+              <small>Get the most out of MeetSync Pro</small>
+            </div>
+          </div>
+
+          <button>English⌄</button>
+          <button>US Dollar $⌄</button>
+
+          <div className="get-touch">
+            <small>Get in touch</small>
+            <b>+91 78277 27574</b>
+          </div>
+
+          <div className="social-row">
+            <span>in</span>
+            <span>𝕏</span>
+            <span>▶</span>
+            <span>f</span>
+            <span>◎</span>
+          </div>
+        </div>
+
+        <div className="footer-cols">
+          <div>
+            <h4>About</h4>
+            <Link href="/enterprise">MeetSync Blog</Link>
+            <Link href="/security">Customers</Link>
+            <Link href="/enterprise">Our Team</Link>
+            <Link href="/enterprise">Careers</Link>
+            <Link href="/apps">Integrations</Link>
+            <Link href="/enterprise">Partners</Link>
+            <Link href="/enterprise">Developers</Link>
+            <Link href="/enterprise">Media Kit</Link>
+          </div>
+
+          <div>
+            <h4>Download</h4>
+            <Link href="/auth">MeetSync Workplace App</Link>
+            <Link href="/meeting/demo">MeetSync Rooms App</Link>
+            <Link href="/whiteboards">Whiteboard App</Link>
+            <Link href="/team-chat">Team Chat App</Link>
+            <Link href="/dashboard">Browser Extension</Link>
+            <Link href="/settings">Virtual Backgrounds</Link>
+          </div>
+
+          <div>
+            <h4>Sales</h4>
+            <Link href="/enterprise">Contact Sales</Link>
+            <Link href="/settings">Plans & Pricing</Link>
+            <Link href="/enterprise">Request a Demo</Link>
+            <Link href="/enterprise">Webinars and Events</Link>
+            <Link href="/enterprise">Experience Center</Link>
+            <Link href="/enterprise">For Startups</Link>
+          </div>
+
+          <div>
+            <h4>Support</h4>
+            <Link href="/join">Test Meeting</Link>
+            <Link href="/profile">Account</Link>
+            <Link href="/security">Support Center</Link>
+            <Link href="/privacy">Privacy</Link>
+            <Link href="/security">Security</Link>
+            <Link href="/enterprise">Developer Support</Link>
+            <Link href="/enterprise">Contact Us</Link>
+          </div>
+        </div>
+      </footer>
+
+      <button className="floating-cookie" aria-label="Cookie settings">⚙</button>
+      <button className="floating-chat" aria-label="Open chat">●</button>
+    </main>
+  );
+}
+
