@@ -75,6 +75,10 @@ const platformTabs = [
     name: "Collaboration",
     imageClass: "collaboration",
     href: "/products",
+    visual: "workspace",
+    visualTitle: "Hybrid collaboration workspace",
+    visualSubtitle: "Meetings, chat, whiteboards, recording, and notes in one flow.",
+    chips: ["Meetings", "Team Chat", "Whiteboard", "Recording"],
     points: [
       "Support hybrid and remote work with reliable video, chat, whiteboards, and recordings.",
       "Bring meetings, chat, screen sharing, AI notes, and workspace tools into one flow.",
@@ -86,43 +90,59 @@ const platformTabs = [
     name: "Customer support",
     imageClass: "support",
     href: "/support",
+    visual: "support",
+    visualTitle: "Support command center",
+    visualSubtitle: "Resolve customer questions with live routing, meeting help, and guided actions.",
+    chips: ["Open ticket", "Join help room", "Share guide", "Escalate"],
     points: [
-      "Use virtual agent workflows to answer product and meeting questions instantly.",
-      "Route users to join pages, dashboard areas, recordings, and support resources.",
-      "Prepare future CRM and helpdesk integrations for complete support context.",
-      "Improve self-service with quick actions and guided product navigation.",
+      "Guide users through meeting join, camera permission, recording, and workspace issues.",
+      "Use virtual agent workflows for instant answers and product navigation.",
+      "Route complex issues to live meeting huddles with shared context.",
+      "Prepare future CRM/helpdesk integrations for complete customer support visibility.",
     ],
   },
   {
     name: "Marketing",
     imageClass: "marketing",
     href: "/products",
+    visual: "marketing",
+    visualTitle: "Webinar and campaign studio",
+    visualSubtitle: "Run launches, workshops, demos, and product sessions with reusable recordings.",
+    chips: ["Webinar", "Campaign", "Lead notes", "Replay"],
     points: [
-      "Host webinars, demos, AI workshops, and product launches with branded meeting rooms.",
-      "Record sessions and convert them into reusable content assets.",
-      "Use meeting insights and analytics to understand engagement.",
-      "Generate post-event summaries, follow-ups, and campaign content with AI workflows.",
+      "Host product demos, AI workshops, launch events, and community sessions.",
+      "Record sessions and turn them into reusable content assets.",
+      "Track engagement using meeting activity, chat, and attendance insights.",
+      "Create post-event follow-ups, summaries, and campaign content with AI-ready workflows.",
     ],
   },
   {
     name: "Sales",
     imageClass: "sales",
     href: "/enterprise",
+    visual: "sales",
+    visualTitle: "Deal room and follow-up workspace",
+    visualSubtitle: "Run demos, capture decisions, and move every conversation toward next steps.",
+    chips: ["Discovery", "Demo", "Proposal", "Follow-up"],
     points: [
-      "Run customer demos, discovery calls, and partner meetings in a clean real-time interface.",
-      "Capture action items and next steps from every conversation.",
-      "Prepare AI-assisted deal notes and follow-up drafts.",
-      "Use recordings and meeting history to improve conversion workflows.",
+      "Run customer demos, discovery calls, partner meetings, and stakeholder reviews.",
+      "Capture action items, objections, decisions, and next steps from every meeting.",
+      "Use recordings and summaries to improve sales handoff and pipeline execution.",
+      "Prepare AI-assisted follow-up drafts, notes, and deal briefs.",
     ],
   },
   {
     name: "Employee engagement",
     imageClass: "engagement",
     href: "/team-chat",
+    visual: "engagement",
+    visualTitle: "Team engagement hub",
+    visualSubtitle: "Connect distributed teams with live huddles, updates, recognition, and async context.",
+    chips: ["All hands", "Recognition", "Huddles", "Updates"],
     points: [
       "Keep teams connected with chat, huddles, whiteboards, and live meetings.",
       "Support async collaboration with recordings, notes, and shared workspace memory.",
-      "Create team operating rhythm through recurring meetings and collaboration spaces.",
+      "Create operating rhythm through recurring meetings, action items, and collaboration spaces.",
       "Build trust with clear privacy controls and transparent data preferences.",
     ],
   },
@@ -357,20 +377,97 @@ export default function HomePage() {
           </div>
 
           <div className={`ms-platform-visual ${tab.imageClass}`}>
-            <div className="ms-ai-search-card">
-              <span>✦</span>
-              <h3>MeetSyncMate is ready to help.</h3>
-              <div className="search-box">Anything to complete?</div>
-              <div className="chip-row">
-                <b>Drive meeting</b>
-                <b>Build slides</b>
-                <b>Draft document</b>
-                <b>Create task</b>
+            <div className={`ms-usecase-card ${tab.visual}`}>
+              <div className="usecase-topbar">
+                <span />
+                <span />
+                <span />
+                <strong>{tab.name}</strong>
               </div>
-              <div className="agenda-card">
-                <strong>Today&apos;s focus</strong>
-                <p>Prioritize meetings, follow-ups, and product execution tasks.</p>
-                <button>Join</button>
+
+              <div className="usecase-body">
+                <div className="usecase-icon">{tab.visual === "workspace" ? "▦" : tab.visual === "support" ? "🎧" : tab.visual === "marketing" ? "📣" : tab.visual === "sales" ? "💼" : "🤝"}</div>
+                <h3>{tab.visualTitle}</h3>
+                <p>{tab.visualSubtitle}</p>
+
+                <div className="usecase-chip-grid">
+                  {tab.chips.map((chip) => (
+                    <b key={chip}>{chip}</b>
+                  ))}
+                </div>
+
+                <div className="usecase-preview">
+                  {tab.visual === "workspace" && (
+                    <>
+                      <div className="mini-meeting">
+                        <i>HD</i>
+                        <strong>Live Meeting</strong>
+                        <small>3 participants · recording ready</small>
+                      </div>
+                      <div className="mini-chat">
+                        <b>Team Chat</b>
+                        <span>Action item shared with workspace</span>
+                      </div>
+                    </>
+                  )}
+
+                  {tab.visual === "support" && (
+                    <>
+                      <div className="support-ticket">
+                        <strong>Ticket #MS-204</strong>
+                        <span>Camera permission issue detected</span>
+                        <em>Suggested fix sent</em>
+                      </div>
+                      <div className="support-actions">
+                        <button>Open help room</button>
+                        <button>Send guide</button>
+                      </div>
+                    </>
+                  )}
+
+                  {tab.visual === "marketing" && (
+                    <>
+                      <div className="webinar-stage">
+                        <strong>Product Launch Webinar</strong>
+                        <span>Live Q&A · replay enabled · lead notes</span>
+                      </div>
+                      <div className="campaign-bars">
+                        <i />
+                        <i />
+                        <i />
+                      </div>
+                    </>
+                  )}
+
+                  {tab.visual === "sales" && (
+                    <>
+                      <div className="deal-card">
+                        <strong>Enterprise Demo</strong>
+                        <span>Decision maker joined · proposal due Friday</span>
+                      </div>
+                      <div className="pipeline-row">
+                        <b>Discovery</b>
+                        <b>Demo</b>
+                        <b>Close</b>
+                      </div>
+                    </>
+                  )}
+
+                  {tab.visual === "engagement" && (
+                    <>
+                      <div className="engagement-feed">
+                        <strong>Weekly all-hands</strong>
+                        <span>5 updates · 2 recognitions · 1 huddle</span>
+                      </div>
+                      <div className="people-row">
+                        <i>P</i>
+                        <i>A</i>
+                        <i>S</i>
+                        <i>+</i>
+                      </div>
+                    </>
+                  )}
+                </div>
               </div>
             </div>
           </div>

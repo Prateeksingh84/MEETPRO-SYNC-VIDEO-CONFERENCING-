@@ -7086,3 +7086,580 @@ html[data-theme="dark"] .inline-photo-editor h4 {
 }
 
 /* === MeetSync Zoom Website Rebuild END === */
+
+
+/* === MeetSync Product UX Fix START === */
+
+.ms-products-page {
+  min-height: 100vh;
+  background:
+    radial-gradient(circle at 10% 0%, rgba(11, 92, 255, 0.16), transparent 28%),
+    linear-gradient(180deg, #f8fbff 0%, #ffffff 52%);
+  color: #00053d;
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+.ms-products-nav {
+  min-height: 86px;
+  padding: 0 clamp(24px, 4vw, 72px);
+  background: #07133d;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 28px;
+}
+
+.ms-products-logo {
+  color: #ffffff;
+  text-decoration: none;
+  font-size: 42px;
+  font-weight: 1000;
+  letter-spacing: -0.11em;
+}
+
+.ms-products-nav div {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+.ms-products-nav a {
+  color: #ffffff;
+  text-decoration: none;
+  font-weight: 900;
+}
+
+.ms-products-nav-cta {
+  min-height: 48px;
+  padding: 0 22px;
+  border-radius: 14px;
+  background: #0b5cff;
+  display: inline-flex;
+  align-items: center;
+}
+
+.ms-products-hero {
+  width: min(1180px, calc(100% - 40px));
+  margin: 0 auto;
+  padding: 86px 0 68px;
+  text-align: center;
+}
+
+.ms-products-hero p {
+  margin: 0 0 18px;
+  color: #0b5cff;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  font-size: 14px;
+  font-weight: 1000;
+}
+
+.ms-products-hero h1 {
+  margin: 0;
+  color: #00053d;
+  font-size: clamp(46px, 6vw, 82px);
+  line-height: 1.02;
+  letter-spacing: -0.075em;
+}
+
+.ms-products-hero span {
+  display: block;
+  width: min(860px, 100%);
+  margin: 24px auto 0;
+  color: #475569;
+  font-size: 20px;
+  line-height: 1.6;
+  font-weight: 650;
+}
+
+.ms-products-actions {
+  margin-top: 34px;
+  display: flex;
+  justify-content: center;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+
+.ms-products-actions a {
+  min-height: 56px;
+  border-radius: 14px;
+  padding: 0 28px;
+  display: inline-flex;
+  align-items: center;
+  text-decoration: none;
+  font-weight: 1000;
+}
+
+.ms-products-actions a:first-child {
+  background: #0b5cff;
+  color: #ffffff;
+}
+
+.ms-products-actions a:last-child {
+  background: #ffffff;
+  color: #00053d;
+  border: 1px solid #cbd5e1;
+}
+
+.ms-products-grid {
+  width: min(1280px, calc(100% - 40px));
+  margin: 0 auto;
+  padding: 10px 0 90px;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 24px;
+}
+
+.ms-product-module {
+  min-height: 320px;
+  border-radius: 28px;
+  padding: 28px;
+  background: #ffffff;
+  border: 1px solid rgba(15, 23, 42, 0.08);
+  color: #00053d;
+  text-decoration: none;
+  display: grid;
+  align-content: space-between;
+  box-shadow: 0 22px 70px rgba(15, 23, 42, 0.08);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.ms-product-module:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 34px 90px rgba(11, 92, 255, 0.14);
+}
+
+.module-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.module-top span {
+  width: 58px;
+  height: 58px;
+  border-radius: 18px;
+  background: #eef4ff;
+  display: grid;
+  place-items: center;
+  font-size: 28px;
+}
+
+.module-top small {
+  color: #0b5cff;
+  font-weight: 1000;
+}
+
+.ms-product-module h2 {
+  margin: 26px 0 12px;
+  font-size: 31px;
+  letter-spacing: -0.055em;
+  color: #00053d;
+}
+
+.ms-product-module p {
+  margin: 0;
+  color: #64748b;
+  font-size: 16px;
+  line-height: 1.65;
+}
+
+.ms-product-module b {
+  margin-top: 24px;
+  color: #0b5cff;
+  font-size: 16px;
+}
+
+.ms-workflow-section {
+  width: min(1280px, calc(100% - 40px));
+  margin: 0 auto 100px;
+  border-radius: 34px;
+  background: #000334;
+  color: #ffffff;
+  padding: clamp(32px, 5vw, 64px);
+}
+
+.ms-workflow-heading {
+  text-align: center;
+  margin-bottom: 36px;
+}
+
+.ms-workflow-heading p {
+  margin: 0 0 10px;
+  color: #7dd3fc;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  font-weight: 1000;
+}
+
+.ms-workflow-heading h2 {
+  margin: 0;
+  font-size: clamp(36px, 4.5vw, 62px);
+  line-height: 1.06;
+  letter-spacing: -0.06em;
+  color: #ffffff;
+}
+
+.ms-workflow-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 22px;
+}
+
+.ms-workflow-grid article {
+  border-radius: 24px;
+  padding: 26px;
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.ms-workflow-grid h3 {
+  margin: 0 0 20px;
+  color: #ffffff;
+  font-size: 24px;
+}
+
+.ms-workflow-grid ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 12px;
+}
+
+.ms-workflow-grid li {
+  color: #dbeafe;
+  font-weight: 750;
+}
+
+.ms-products-cta {
+  padding: 0 24px 110px;
+  text-align: center;
+}
+
+.ms-products-cta h2 {
+  width: min(920px, 100%);
+  margin: 0 auto 28px;
+  font-size: clamp(38px, 5vw, 64px);
+  line-height: 1.06;
+  letter-spacing: -0.06em;
+  color: #00053d;
+}
+
+.ms-products-cta a {
+  min-height: 56px;
+  border-radius: 14px;
+  padding: 0 28px;
+  display: inline-flex;
+  align-items: center;
+  background: #0b5cff;
+  color: #ffffff;
+  text-decoration: none;
+  font-weight: 1000;
+}
+
+.ms-report-grid {
+  align-items: stretch !important;
+}
+
+.ms-report-card {
+  min-height: 440px !important;
+  height: 100%;
+  display: flex !important;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 28px;
+}
+
+.ms-report-card h3 {
+  max-width: 100%;
+  overflow-wrap: anywhere;
+}
+
+.ms-report-card.radar {
+  padding: 30px !important;
+}
+
+.ms-report-card.radar h3 {
+  font-size: clamp(24px, 2.4vw, 32px) !important;
+  line-height: 1.12 !important;
+}
+
+.radar-visual {
+  min-height: 190px;
+  max-height: 210px;
+}
+
+.ms-platform-panel {
+  align-items: center !important;
+}
+
+.ms-platform-copy {
+  align-self: center;
+}
+
+.ms-platform-visual {
+  overflow: hidden;
+}
+
+.ms-usecase-card {
+  width: min(620px, 100%);
+  min-height: 500px;
+  border-radius: 24px;
+  overflow: hidden;
+  background: #ffffff;
+  border: 1px solid rgba(148, 163, 184, 0.25);
+  box-shadow: 0 32px 90px rgba(15, 23, 42, 0.18);
+}
+
+.usecase-topbar {
+  height: 56px;
+  padding: 0 18px;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  background: #0f172a;
+  color: #ffffff;
+}
+
+.usecase-topbar span {
+  width: 11px;
+  height: 11px;
+  border-radius: 999px;
+  background: #ef4444;
+}
+
+.usecase-topbar span:nth-child(2) {
+  background: #f59e0b;
+}
+
+.usecase-topbar span:nth-child(3) {
+  background: #22c55e;
+}
+
+.usecase-topbar strong {
+  margin-left: 10px;
+  font-size: 14px;
+}
+
+.usecase-body {
+  padding: 38px;
+  text-align: center;
+}
+
+.usecase-icon {
+  width: 76px;
+  height: 76px;
+  margin: 0 auto 18px;
+  border-radius: 24px;
+  display: grid;
+  place-items: center;
+  color: #ffffff;
+  font-size: 34px;
+}
+
+.ms-usecase-card.workspace .usecase-icon {
+  background: linear-gradient(135deg, #0b5cff, #8b5cf6);
+}
+
+.ms-usecase-card.support .usecase-icon {
+  background: linear-gradient(135deg, #0284c7, #06b6d4);
+}
+
+.ms-usecase-card.marketing .usecase-icon {
+  background: linear-gradient(135deg, #f97316, #ec4899);
+}
+
+.ms-usecase-card.sales .usecase-icon {
+  background: linear-gradient(135deg, #059669, #84cc16);
+}
+
+.ms-usecase-card.engagement .usecase-icon {
+  background: linear-gradient(135deg, #7c3aed, #0b5cff);
+}
+
+.usecase-body h3 {
+  margin: 0;
+  color: #00053d;
+  font-size: 30px;
+  line-height: 1.12;
+  letter-spacing: -0.05em;
+}
+
+.usecase-body p {
+  width: min(430px, 100%);
+  margin: 14px auto 22px;
+  color: #64748b;
+  line-height: 1.55;
+  font-weight: 650;
+}
+
+.usecase-chip-grid {
+  display: flex;
+  justify-content: center;
+  gap: 9px;
+  flex-wrap: wrap;
+  margin-bottom: 24px;
+}
+
+.usecase-chip-grid b {
+  border-radius: 999px;
+  background: #eef4ff;
+  color: #0b5cff;
+  padding: 9px 12px;
+  font-size: 13px;
+}
+
+.usecase-preview {
+  border-radius: 20px;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  padding: 18px;
+  text-align: left;
+}
+
+.mini-meeting,
+.mini-chat,
+.support-ticket,
+.webinar-stage,
+.deal-card,
+.engagement-feed {
+  border-radius: 16px;
+  padding: 16px;
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  margin-bottom: 12px;
+}
+
+.mini-meeting i {
+  display: inline-grid;
+  place-items: center;
+  width: 42px;
+  height: 30px;
+  border-radius: 10px;
+  background: #0b5cff;
+  color: #ffffff;
+  font-style: normal;
+  font-weight: 1000;
+  margin-right: 10px;
+}
+
+.mini-meeting strong,
+.support-ticket strong,
+.webinar-stage strong,
+.deal-card strong,
+.engagement-feed strong {
+  display: block;
+  color: #00053d;
+  font-size: 16px;
+}
+
+.mini-meeting small,
+.mini-chat span,
+.support-ticket span,
+.webinar-stage span,
+.deal-card span,
+.engagement-feed span {
+  display: block;
+  margin-top: 5px;
+  color: #64748b;
+  font-size: 13px;
+  line-height: 1.4;
+}
+
+.mini-chat b {
+  display: block;
+  color: #0b5cff;
+}
+
+.support-ticket em {
+  display: inline-flex;
+  margin-top: 10px;
+  border-radius: 999px;
+  padding: 7px 10px;
+  background: #dcfce7;
+  color: #166534;
+  font-style: normal;
+  font-weight: 900;
+  font-size: 12px;
+}
+
+.support-actions,
+.pipeline-row,
+.people-row {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.support-actions button,
+.pipeline-row b {
+  border: 0;
+  border-radius: 999px;
+  background: #0b5cff;
+  color: #ffffff;
+  padding: 10px 13px;
+  font-weight: 900;
+}
+
+.campaign-bars {
+  display: grid;
+  gap: 10px;
+}
+
+.campaign-bars i {
+  height: 18px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, #f97316, #ec4899);
+}
+
+.campaign-bars i:nth-child(2) {
+  width: 78%;
+}
+
+.campaign-bars i:nth-child(3) {
+  width: 56%;
+}
+
+.people-row i {
+  width: 42px;
+  height: 42px;
+  border-radius: 999px;
+  display: grid;
+  place-items: center;
+  background: #0b5cff;
+  color: #ffffff;
+  font-style: normal;
+  font-weight: 1000;
+}
+
+@media (max-width: 1180px) {
+  .ms-products-grid,
+  .ms-workflow-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 760px) {
+  .ms-products-nav {
+    align-items: flex-start;
+    flex-direction: column;
+    padding: 18px;
+  }
+
+  .ms-products-nav div {
+    flex-wrap: wrap;
+    gap: 14px;
+  }
+
+  .ms-products-grid,
+  .ms-workflow-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .usecase-body {
+    padding: 24px;
+  }
+}
+
+/* === MeetSync Product UX Fix END === */
