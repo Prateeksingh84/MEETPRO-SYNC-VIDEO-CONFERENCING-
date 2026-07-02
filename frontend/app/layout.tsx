@@ -1,10 +1,11 @@
-import type { Metadata } from "next";
+﻿import type { Metadata } from "next";
 import "./globals.css";
+import { MeetSyncVirtualAgent } from "@/components/MeetSyncVirtualAgent";
+import { MeetSyncCookiePreferences } from "@/components/MeetSyncCookiePreferences";
 
 export const metadata: Metadata = {
-  title: "MeetSync Pro | Video Conferencing Platform",
-  description:
-    "A Zoom-style real-time video conferencing platform built with Next.js, FastAPI, SQLite, WebSockets, and WebRTC.",
+  title: "MeetSync Pro",
+  description: "MeetSync Pro - real-time video conferencing, collaboration, recordings, chat, and workspace tools.",
 };
 
 export default function RootLayout({
@@ -14,7 +15,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body>
+        {children}
+        <MeetSyncCookiePreferences />
+        <MeetSyncVirtualAgent />
+      </body>
     </html>
   );
 }

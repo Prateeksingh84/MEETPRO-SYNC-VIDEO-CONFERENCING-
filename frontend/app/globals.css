@@ -6593,3 +6593,512 @@ html[data-theme="dark"] .inline-photo-editor h4 {
 }
 
 /* === MeetSync Final Animated Zoom Landing END === */
+
+/* =========================
+   MeetSync Pro - Agent + Cookie UI
+   ========================= */
+
+.meetsync-agent-launcher,
+.meetsync-cookie-launcher {
+  position: fixed;
+  z-index: 1200;
+  border: none;
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.meetsync-agent-launcher:hover,
+.meetsync-cookie-launcher:hover {
+  transform: translateY(-2px);
+}
+
+.meetsync-agent-launcher {
+  right: 24px;
+  bottom: 24px;
+  width: 72px;
+  height: 72px;
+  border-radius: 999px;
+  background: linear-gradient(135deg, #3b82f6, #2563eb);
+  box-shadow: 0 16px 40px rgba(37, 99, 235, 0.35);
+}
+
+.meetsync-agent-launcher-dot {
+  width: 14px;
+  height: 14px;
+  border-radius: 999px;
+  background: #ffffff;
+  display: block;
+}
+
+.meetsync-cookie-launcher {
+  left: 24px;
+  bottom: 24px;
+  width: 64px;
+  height: 64px;
+  border-radius: 999px;
+  background: #7ac943;
+  color: #ffffff;
+  box-shadow: 0 14px 30px rgba(18, 52, 86, 0.22);
+  border: 3px solid #ffffff;
+  font-size: 24px;
+}
+
+.meetsync-agent-panel {
+  position: fixed;
+  right: 24px;
+  bottom: 108px;
+  width: 410px;
+  max-width: calc(100vw - 32px);
+  height: 680px;
+  max-height: calc(100vh - 140px);
+  background: #ffffff;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 24px 80px rgba(15, 23, 42, 0.28);
+  z-index: 1250;
+  display: flex;
+  flex-direction: column;
+}
+
+.meetsync-agent-header {
+  background: linear-gradient(135deg, #2563eb, #c084fc);
+  color: #ffffff;
+  padding: 18px 18px 16px;
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.meetsync-agent-header strong {
+  display: block;
+  font-size: 22px;
+  line-height: 1.2;
+}
+
+.meetsync-agent-header p {
+  margin: 6px 0 0;
+  font-size: 13px;
+  opacity: 0.95;
+}
+
+.meetsync-agent-header-actions {
+  display: flex;
+  align-items: flex-start;
+  gap: 6px;
+}
+
+.meetsync-agent-header-actions button {
+  border: none;
+  background: transparent;
+  color: #ffffff;
+  font-size: 28px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.meetsync-agent-body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  background: #f8fafc;
+}
+
+.meetsync-agent-chat {
+  flex: 1;
+  overflow-y: auto;
+  padding: 18px 16px 12px;
+}
+
+.meetsync-agent-message {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 14px;
+}
+
+.meetsync-agent-message.user {
+  justify-content: flex-end;
+}
+
+.meetsync-agent-avatar {
+  width: 38px;
+  height: 38px;
+  border-radius: 999px;
+  background: linear-gradient(135deg, #2563eb, #7c3aed);
+  color: #ffffff;
+  display: grid;
+  place-items: center;
+  font-weight: 800;
+  font-size: 12px;
+  flex-shrink: 0;
+}
+
+.meetsync-agent-bubble-wrap {
+  max-width: 82%;
+}
+
+.meetsync-agent-meta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 6px;
+}
+
+.meetsync-agent-meta span {
+  font-size: 12px;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.meetsync-agent-meta small {
+  font-size: 11px;
+  color: #64748b;
+}
+
+.meetsync-agent-bubble {
+  border-radius: 16px;
+  padding: 12px 14px;
+  background: #e5e7eb;
+  color: #0f172a;
+}
+
+.meetsync-agent-message.user .meetsync-agent-bubble {
+  background: #2563eb;
+  color: #ffffff;
+}
+
+.meetsync-agent-bubble p {
+  margin: 0;
+  line-height: 1.5;
+  font-size: 14px;
+}
+
+.meetsync-agent-inline-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.meetsync-agent-inline-actions a,
+.meetsync-agent-inline-actions button {
+  border-radius: 999px;
+  border: 1px solid #3b82f6;
+  padding: 8px 12px;
+  background: #ffffff;
+  color: #2563eb;
+  font-size: 13px;
+  font-weight: 700;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.meetsync-agent-bubble.typing {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 44px;
+}
+
+.meetsync-agent-bubble.typing span {
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  background: #64748b;
+  display: block;
+  animation: meetsyncTyping 1.2s infinite ease-in-out;
+}
+
+.meetsync-agent-bubble.typing span:nth-child(2) {
+  animation-delay: 0.15s;
+}
+
+.meetsync-agent-bubble.typing span:nth-child(3) {
+  animation-delay: 0.3s;
+}
+
+@keyframes meetsyncTyping {
+  0%, 80%, 100% {
+    transform: scale(0.8);
+    opacity: 0.4;
+  }
+  40% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.meetsync-agent-quick-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  padding: 12px 16px 14px;
+  border-top: 1px solid #e2e8f0;
+  background: #ffffff;
+}
+
+.meetsync-agent-quick-actions button {
+  border-radius: 999px;
+  border: 1px solid #3b82f6;
+  padding: 10px 14px;
+  background: #ffffff;
+  color: #2563eb;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  text-align: left;
+}
+
+.meetsync-agent-form {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 10px;
+  padding: 14px 16px;
+  border-top: 1px solid #e2e8f0;
+  background: #ffffff;
+}
+
+.meetsync-agent-form input {
+  border: 1px solid #cbd5e1;
+  border-radius: 14px;
+  min-height: 48px;
+  padding: 0 14px;
+  font-size: 14px;
+  outline: none;
+}
+
+.meetsync-agent-form input:focus {
+  border-color: #2563eb;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
+}
+
+.meetsync-agent-form button {
+  min-width: 90px;
+  border: none;
+  border-radius: 14px;
+  background: #2563eb;
+  color: #ffffff;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.meetsync-agent-footer {
+  padding: 10px 16px 16px;
+  font-size: 12px;
+  line-height: 1.45;
+  color: #64748b;
+  background: #ffffff;
+  border-top: 1px solid #e2e8f0;
+}
+
+.meetsync-cookie-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.45);
+  z-index: 1300;
+  display: grid;
+  place-items: center;
+  padding: 18px;
+}
+
+.meetsync-cookie-modal {
+  width: 760px;
+  max-width: 100%;
+  max-height: calc(100vh - 36px);
+  background: #ffffff;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 30px 90px rgba(15, 23, 42, 0.3);
+  display: flex;
+  flex-direction: column;
+}
+
+.meetsync-cookie-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 18px 22px;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.meetsync-cookie-header strong {
+  color: #2563eb;
+  font-size: 34px;
+  font-weight: 900;
+  letter-spacing: -0.06em;
+}
+
+.meetsync-cookie-header button {
+  border: none;
+  background: transparent;
+  color: #52525b;
+  font-size: 34px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.meetsync-cookie-scroll {
+  overflow-y: auto;
+  padding: 18px 22px 12px;
+}
+
+.meetsync-cookie-scroll h2 {
+  margin: 0 0 18px;
+  color: #3f3f46;
+  font-size: 22px;
+}
+
+.meetsync-cookie-scroll p {
+  margin: 0 0 18px;
+  color: #52525b;
+  line-height: 1.6;
+  font-size: 15px;
+}
+
+.meetsync-cookie-section {
+  margin-top: 28px;
+}
+
+.meetsync-cookie-section h3 {
+  margin: 0 0 16px;
+  color: #3f3f46;
+  font-size: 18px;
+}
+
+.meetsync-cookie-row {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 18px;
+  align-items: center;
+  padding: 18px 16px;
+  border: 1px solid #e5e7eb;
+  border-bottom: none;
+  background: #ffffff;
+}
+
+.meetsync-cookie-row:last-of-type {
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.meetsync-cookie-row strong {
+  display: block;
+  color: #52525b;
+  font-size: 15px;
+  margin-bottom: 6px;
+}
+
+.meetsync-cookie-row small {
+  color: #71717a;
+  line-height: 1.5;
+  font-size: 13px;
+}
+
+.always-active {
+  color: #2563eb;
+  font-size: 14px;
+  font-weight: 800;
+}
+
+.toggle {
+  width: 52px;
+  height: 30px;
+  border-radius: 999px;
+  border: none;
+  background: #cbd5e1;
+  position: relative;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.toggle span {
+  position: absolute;
+  top: 3px;
+  left: 4px;
+  width: 24px;
+  height: 24px;
+  border-radius: 999px;
+  background: #ffffff;
+  transition: transform 0.2s ease;
+}
+
+.toggle.on {
+  background: #4f8b55;
+}
+
+.toggle.on span {
+  transform: translateX(20px);
+}
+
+.meetsync-cookie-saved-banner {
+  margin-top: 18px;
+  background: #eff6ff;
+  color: #1d4ed8;
+  border: 1px solid #bfdbfe;
+  border-radius: 10px;
+  padding: 12px 14px;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.meetsync-cookie-footer {
+  padding: 16px 22px 20px;
+  display: grid;
+  gap: 12px;
+  border-top: 1px solid #e5e7eb;
+  background: #fafafa;
+}
+
+.meetsync-cookie-footer button {
+  min-height: 56px;
+  border: none;
+  border-radius: 6px;
+  font-size: 15px;
+  font-weight: 800;
+  cursor: pointer;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.meetsync-cookie-footer .secondary,
+.meetsync-cookie-footer .primary {
+  background: #1f73e0;
+  color: #ffffff;
+}
+
+@media (max-width: 768px) {
+  .meetsync-agent-panel {
+    right: 12px;
+    left: 12px;
+    bottom: 94px;
+    width: auto;
+    height: 72vh;
+  }
+
+  .meetsync-agent-launcher {
+    right: 14px;
+    bottom: 14px;
+    width: 64px;
+    height: 64px;
+  }
+
+  .meetsync-cookie-launcher {
+    left: 14px;
+    bottom: 14px;
+    width: 58px;
+    height: 58px;
+  }
+
+  .meetsync-cookie-modal {
+    max-height: calc(100vh - 16px);
+  }
+
+  .meetsync-cookie-row {
+    grid-template-columns: 1fr;
+  }
+
+  .meetsync-agent-form {
+    grid-template-columns: 1fr;
+  }
+}
