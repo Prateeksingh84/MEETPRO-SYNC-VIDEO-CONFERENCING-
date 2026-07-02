@@ -1,3 +1,4 @@
+import { LandingHeaderSearchFix } from "@/components/LandingHeaderSearchFix";
 ﻿import { RouteWidgetGuard } from "@/components/RouteWidgetGuard";
 import type { Metadata, Viewport } from "next";
 import "./globals.css";
@@ -83,6 +84,7 @@ export default function RootLayout({
         <MeetSyncCookiePreferences />
         <MeetSyncVirtualAgent />
               <RouteWidgetGuard />
+              <LandingHeaderSearchFix />
       </body>
     </html>
   );
